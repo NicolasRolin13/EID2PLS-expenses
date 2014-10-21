@@ -1,0 +1,59 @@
+body {
+    font-family: Palatino, serif;
+    font-weight: normal;
+    font-size: 1.5em;
+}
+
+ul.django-form {
+    background: #9ea4d7
+}
+
+.django-form ul {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.django-form li {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+.django-form label {
+    width: 15%;
+    text-align: right;
+    display: inline-block;
+    padding-right: 10px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.django-form .required label {
+    font-weight: bold;
+}
+
+.django-form input, textarea, select {
+    vertical-align: top;
+    width: 50%;
+}
+
+.django-form span.helptext {
+    display: block;
+    font-style: italic;
+    font-size: 0.75em;
+    margin-left: 15%;
+}
+
+.django-form .errorlist {
+    font-weight: bold;
+    color: red;
+}
+
+.django-form ul.errorlist {
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
+    margin-left: 15%;
+    width: 50%;
+    font-size: 0.75em;
+}
+
