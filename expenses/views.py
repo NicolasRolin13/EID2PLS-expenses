@@ -3,8 +3,12 @@
 from django.shortcuts import render
 from expenses.forms import BillForm
 
-def test(request):
+def normal_bill_form(request):
     if request.POST:
-        #TODO fill this with something usefull
-        pass
-    return render(request, 'index.html', {'form':BillForm()})
+        print("c'est bien un post")
+        submitted_form = BillForm(request.POST)
+        if submitted_form.is_valid():
+            print('lollolol')
+            submitted_form.save()
+            render(request, 'thanks.html')
+    return render(request, 'index.html', {'form':BillForm(request.POST)})

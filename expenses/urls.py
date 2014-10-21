@@ -4,5 +4,5 @@ from django.conf.urls import patterns, url
 import expenses.views
 
 urlpatterns = patterns('',
-            url(r'^$', expenses.views.test),
+            url(r'^$', expenses.views.normal_bill_form),
             )

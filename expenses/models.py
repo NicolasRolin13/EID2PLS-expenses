@@ -10,7 +10,7 @@ class Transfert(models.Model):
     child_of_bill = models.ForeignKey('Bill', related_name='transferts')
 
     def __str__(self):
-        return "%s --> %s (%s€)" % (sender, receiver, amount)
+        return "%s --> %s (%s€)" % (self.sender, self.receiver, self.amount)
 
 class Bill(models.Model):
     creator = models.ForeignKey('ExtendedUser')
@@ -43,17 +43,17 @@ class Bill(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "%s - %s (%s€)" % (date, title, amount)
+        return "%s - %s (%s€)" % (self.date, self.title, self.amount)
 
 class ExtendedUser(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=20)
 
     def __str__(self):
-        return nickname
+        return self.nickname
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
-        return name
+        return self.name

@@ -22,6 +22,6 @@ class BillForm(forms.ModelForm):
 
             transfert.save()
 
-    def clean(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         self.create_transferts()
         super().clean(*args, **kwargs)
