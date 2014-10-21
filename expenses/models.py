@@ -23,15 +23,15 @@ class Bill(models.Model):
 
     def calculate_amount(self):
         transferts_sum = 0
-        for transfert in self.transferts:
+        for transfert in self.transferts.all():
             transferts_sum += transfert.amount
-        return sum
+        return transferts_sum
 
     def update_amount(self):
-        self.amount = calculate_amount()
+        self.amount = self.calculate_amount()
 
     def check_integrity(self):
-        return calculate_amount == amount
+        return self.calculate_amount() == self.amount
 
     def create_transferts(self, buyer, receivers):
         for receiver in receivers:
@@ -39,8 +39,7 @@ class Bill(models.Model):
             transfert.amount = self.amount/len(receivers)
             transfert.sender = buyer
             transfert.receiver = receiver
-            child_of_bill = self
-
+            transfert.child_of_bill = self
             transfert.save()
 
     @classmethod
@@ -51,7 +50,7 @@ class Bill(models.Model):
         super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        if not check_integrity:
+        if not self.check_integrity():
             raise ValidationError("Current amount doesn't match the sum of transferts amounts")
         super().save(*args, **kwargs)
 
