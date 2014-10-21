@@ -15,7 +15,7 @@ class Transfert(models.Model):
 class Bill(models.Model):
     creator = models.ForeignKey('ExtendedUser')
     category = models.ManyToManyField('Category')
-    amount = models.DecimalField(max_digits=6, decimal_places=2, editable=False)
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -33,9 +33,22 @@ class Bill(models.Model):
     def check_integrity(self):
         return calculate_amount == amount
 
+    def create_transferts(self, buyer, receivers):
+        for receiver in receivers:
+            transfert = Transfert()
+            transfert.amount = self.amount/len(receivers)
+            transfert.sender = buyer
+            transfert.receiver = receiver
+            child_of_bill = self
+
+            transfert.save()
+
     @classmethod
     def check_global_integrity(cls):
         return [failure for failure in cls.objects.all() if not failure.check_integrity()]
+
+    def unsafe_save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         if not check_integrity:

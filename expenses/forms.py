@@ -14,17 +14,3 @@ class BillForm(forms.ModelForm):
         exclude = ['creator', 'date', 'repayment']
     buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
     receivers = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
-
-    def create_transferts(self):
-        for receiver in self.receivers:
-            transfert = Transfert()
-            transfert.amount = self.amount/len(self.receivers)
-            transfert.sender = self.buyer
-            transfert.receiver = receiver
-            child_of_bill = self
-
-            transfert.save()
-
-    def save(self, *args, **kwargs):
-        self.create_transferts()
-        super().clean(*args, **kwargs)
