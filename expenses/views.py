@@ -4,8 +4,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.debug import sensitive_post_parameters
+from django.db.models import Q
 
 from expenses.forms import BillForm
+from expenses.models import Transfert
+
+# Custom views
+###############
 
 @login_required
 def normal_bill_form(request):

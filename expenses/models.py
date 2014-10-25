@@ -22,10 +22,7 @@ class Bill(models.Model):
     repayment = models.BooleanField(editable=False, default=False)
 
     def calculate_amount(self):
-        transferts_sum = 0
-        for transfert in self.transferts.all():
-            transferts_sum += transfert.amount
-        return transferts_sum
+        return sum(transfert.amount for transfert in self.transferts.all())
 
     def update_amount(self):
         self.amount = self.calculate_amount()
@@ -60,6 +57,11 @@ class Bill(models.Model):
 class ExtendedUser(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=20)
+
+    def calculate_balance(self):
+        positive = sum(transfert.amount for transferts in self.senders.all())
+        negative = sum(transfert.amount for transferts in self.receivers.all())
+        return (positive - negative)
 
     def __str__(self):
         return self.nickname

@@ -5,6 +5,13 @@
         <link rel="stylesheet" href="/static/main.css">
     </head>
     <body>
+        <header>
+            <nav>
+                <ul class="top-navigation-bar">
+                    <li><a href="{% url 'expenses.views.normal_bill_form' %}">Bill form</a></li>
+                </ul>
+            </nav>
+        </header>
     {% block main_content %}{% endblock %}
     </body>
 </html>
