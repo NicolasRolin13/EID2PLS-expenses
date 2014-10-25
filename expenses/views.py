@@ -28,6 +28,15 @@ def normal_bill_form(request):
             render(request, 'thanks.html')
     return render(request, 'basic_form.html', {'form':BillForm(request.POST)})
 
+@login_required
+def view_history(request):
+    user = request.user.extendeduser
+    senders_transferts = Transfert.objects.filter(sender=user).order_by('-id')[:20]
+    receivers_transferts = Transfert.objects.filter(receiver=user).order_by('-id')[:20]
+
+    senders_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in senders_transferts]
+    receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_transferts]
+    return render(request, 'history.html', {'senders':senders_table, 'receivers':receivers_table})
 
 # Login handling
 #################

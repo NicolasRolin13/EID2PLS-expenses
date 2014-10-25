@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="django-table">
+<span class="table-title">Last 20 bills you're involved in:</span>
+<table class="minimalist-table">
+    <tr>
+        <th>Bill</th>
+        <th>Amount</th>
+        <th>Date</th>
+    </tr>
+    {% for receiver in receivers %}
+    <tr>
+        <td>{{ receiver.0 }}</td>
+        <td>{{ receiver.1 }}</td>
+        <td>{{ receiver.2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+<div class="django-table">
+<span class="table-title">Last 20 bills you paid:</span>
+<table class="minimalist-table">
+    <tr>
+        <th>Bill</th>
+        <th>Amount</th>
+        <th>Date</th>
+    </tr>
+    {% for sender in senders %}
+    <tr>
+        <td>{{ sender.0 }}</td>
+        <td>{{ sender.1 }}</td>
+        <td>{{ sender.2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}
