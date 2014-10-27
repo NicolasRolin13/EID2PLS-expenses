@@ -7,7 +7,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.db.models import Q
 
 from expenses.forms import BillForm
-from expenses.models import Transfert
+from expenses.models import Transfert, Bill
 
 # Custom views
 ###############
@@ -37,6 +37,13 @@ def view_history(request):
     senders_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in senders_transferts]
     receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_transferts]
     return render(request, 'history.html', {'senders':senders_table, 'receivers':receivers_table})
+
+@login_required
+def whats_new(request):
+    user = request.user.extendeduser
+    last_actions = Bill.objects.all().order_by('-id')[:10]
+    last_actions_list = [(action, (user in action.list_of_people_involved())) for action in last_actions]
+    return render(request, 'whatsnew.html', {'last_actions':last_actions_list})
 
 # Login handling
 #################

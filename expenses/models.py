@@ -39,6 +39,15 @@ class Bill(models.Model):
             transfert.child_of_bill = self
             transfert.save()
 
+    def list_of_senders(self):
+        return [transfert.sender for transfert in self.transferts.all()]
+
+    def list_of_receivers(self):
+        return [transfert.receiver for transfert in self.transferts.all()]
+
+    def list_of_people_involved(self):
+        return list(set(self.list_of_senders() + self.list_of_receivers()))
+
     @classmethod
     def check_global_integrity(cls):
         return [failure for failure in cls.objects.all() if not failure.check_integrity()]
@@ -52,7 +61,7 @@ class Bill(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "%s - %s (%s€)" % (self.date, self.title, self.amount)
+        return "%s - %s (%s€)" % (self.date.strftime('%c'), self.title, self.amount)
 
 class ExtendedUser(models.Model):
     user = models.OneToOneField(User)
