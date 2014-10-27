@@ -5,6 +5,9 @@ from django import forms
 from expenses.models import Bill, Transfert, ExtendedUser
 
 class BillForm(forms.ModelForm):
+    '''
+    Form for non-repayment bill.
+    '''
     error_css_class = 'error'
     required_css_class = 'required'
 

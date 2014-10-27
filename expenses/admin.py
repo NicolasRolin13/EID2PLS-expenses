@@ -9,6 +9,7 @@ class ExtendedUserInline(admin.StackedInline):
 
 class UserAdmin(UserAdmin):
     inlines = (ExtendedUserInline, )
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register([Transfert, Bill, Category])
