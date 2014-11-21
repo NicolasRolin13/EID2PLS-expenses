@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from expenses.models import Bill, Transfert, ExtendedUser
+from expenses.models import Bill, Transfer, ExtendedUser
 
 class BillForm(forms.ModelForm):
     '''

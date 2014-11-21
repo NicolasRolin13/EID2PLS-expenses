@@ -7,7 +7,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.db.models import Q
 
 from expenses.forms import BillForm
-from expenses.models import Transfert, Bill
+from expenses.models import Transfer, Bill
 
 # Custom views
 ###############
@@ -22,7 +22,7 @@ def normal_bill_form(request):
             cleaned_form = submitted_form.cleaned_data
 
             bill_model.unsafe_save()
-            bill_model.create_transferts(cleaned_form['buyer'], cleaned_form['receivers'])
+            bill_model.create_transfers(cleaned_form['buyer'], cleaned_form['receivers'])
             bill_model.update_amount()
             bill_model.save()
             render(request, 'thanks.html')
@@ -31,11 +31,11 @@ def normal_bill_form(request):
 @login_required
 def view_history(request):
     user = request.user.extendeduser
-    senders_transferts = Transfert.objects.filter(sender=user).order_by('-id')[:20]
-    receivers_transferts = Transfert.objects.filter(receiver=user).order_by('-id')[:20]
+    senders_transfers = Transfer.objects.filter(sender=user).order_by('-id')[:20]
+    receivers_transfers = Transfer.objects.filter(receiver=user).order_by('-id')[:20]
 
-    senders_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in senders_transferts]
-    receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_transferts]
+    senders_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in senders_transfers]
+    receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_transfers]
     return render(request, 'history.html', {'senders':senders_table, 'receivers':receivers_table})
 
 @login_required
