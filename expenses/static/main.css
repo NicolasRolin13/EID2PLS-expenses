@@ -1,9 +1,16 @@
 body {
-    font-family: Palatino, serif;
+    font-family: "Linux Libertine O", Palatino, serif;
     font-weight: normal;
     font-size: 1.5em;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
 }
 
+ul {
+    margin: 0px;
+    padding: 0px;
+}
 ul.django-form {
     background: #9ea4d7
 }
@@ -57,3 +64,53 @@ ul.django-form {
     font-size: 0.75em;
 }
 
+nav ul ul {
+    display: none;
+}
+
+nav ul li:hover > ul{
+    display: block;
+}
+
+nav ul {
+    position: relative;
+    display: inline-table;
+}
+
+nav ul ul li {
+    display: block;
+}
+
+nav.top-navigation-bar {
+    position: absolute;
+    display: block;
+    background-color: #050B30;
+    border-color: #FFFFFF;
+    border-width: 1px;
+    border-bottom-style: solid;
+    border-right-style: solid;
+    border-bottom-right-radius: 0.5em;
+    padding-top: 0.8em;
+    padding-bottom: 0.2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    background-image: -moz-linear-gradient(top, #050B30, #0E1749)
+}
+.top-navigation-bar ul {
+    float: left;
+}
+.top-navigation-bar li {
+    list-style-type: none;
+    display: inline;
+}
+
+.top-navigation-bar a {
+    color: white;
+    font-size: 2em;
+    font-style: bold;
+    text-decoration: none;
+}
+
+ul.user-menu {
+    float: right;
+}

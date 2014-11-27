@@ -6,9 +6,17 @@
     </head>
     <body>
         <header>
-            <nav>
-                <ul class="top-navigation-bar">
+            <nav class="top-navigation-bar">
+                <ul>
+                    <li><a href="/" class="share-link">Share</a></li>
                     <li><a href="{% url 'expenses.views.normal_bill_form' %}">Bill form</a></li>
+                    <li><a href="{% url 'expenses.views.whats_new' %}">What's new</a></li>
+                    <li><a href="{% url 'expenses.views.view_history' %}">History</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href=#>{{ user.username }}</a><ul class="user-menu">
+                        <li><a href=#>Logout</a></li>
+                    </ul></li>
+                    {% endif %}
                 </ul>
             </nav>
         </header>
