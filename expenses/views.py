@@ -7,7 +7,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.db.models import Q
 
 from expenses.forms import BillForm
-from expenses.models import Transfer, Bill
+from expenses.models import Transfer, Bill, ExtendedUser
 
 # Custom views
 ###############
@@ -77,3 +77,13 @@ def do_login(request):
         request.session['next_page'] = params['next_page']
         return redirect('view_login_fail')
 
+# Useful functions
+##################
+
+def gen_list_of_optimal_repayment(users):
+    users = [user for user in users if user != 0]
+    if users:
+        users.sort()
+        amount = min(users[0].balance, -users[-1].balance)
+        transfert = Transfert(sender=users[-1], receiver=user[0], amount=amount)
+        yield transfert

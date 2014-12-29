@@ -93,14 +93,89 @@ class Bill(models.Model):
 class ExtendedUser(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=20)
+    balance = models.DecimalField(max_digits=6, decimal_places=2, editable=False)
 
     def calculate_balance(self):
         positive = sum(transfer.amount for transfers in self.senders.all())
         negative = sum(transfer.amount for transfers in self.receivers.all())
         return (positive - negative)
 
+    def update_amount(self):
+        '''
+        Update the field balance with the sum of transfers amount.
+        '''
+        self.balance = self.calculate_balance()
+
+    def check_integrity(self):
+        '''
+        Check if the balance of the ExtendedUser instance match the sum of his transfers amount.
+        Useful to check if some transfers were modified manually.
+        '''
+        return self.calculate_balance() == self.balance
+
+    @classmethod
+    def check_global_integrity(cls):
+        '''
+        Integrity check of all instances of ExtendedUser model.
+        '''
+        return [failure for failure in cls.objects.all() if not failure.check_integrity()]
+
     def __str__(self):
         return self.nickname
+
+    def __lt__(self, other):
+        if type(self) == type(other) or type(other) == int:
+            if type(other) ==  int:
+                return self.balance < other
+            else:
+                return self.balance < other.balance
+        else:
+            return TypeError
+
+    def __le__(self, other):
+        if type(self) == type(other) or type(other) == int:
+            if type(other) ==  int:
+                return self.balance <= other
+            else:
+                return self.balance <= other.balance
+        else:
+            return TypeError
+
+    def __eq__(self, other):
+        if type(self) == type(other) or type(other) == int:
+            if type(other) ==  int:
+                return self.balance == other
+            else:
+                return self.balance == other.balance
+        else:
+            return TypeError
+
+    def __ne__(self, other):
+        if type(self) == type(other) or type(other) == int:
+            if type(other) ==  int:
+                return self.balance != other
+            else:
+                return self.balance != other.balance
+        else:
+            return TypeError
+
+    def __gt__(self, other):
+        if type(self) == type(other) or type(other) == int:
+            if type(other) ==  int:
+                return self.balance > other
+            else:
+                return self.balance > other.balance
+        else:
+            return TypeError
+
+    def __lt__(self, other):
+        if type(self) == type(other) or type(other) == int:
+            if type(other) ==  int:
+                return self.balance >= other
+            else:
+                return self.balance >= other.balance
+        else:
+            return TypeError
 
 class Category(models.Model):
     '''
