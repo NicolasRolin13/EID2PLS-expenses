@@ -69,7 +69,7 @@ nav.top-navigation-bar {
 }
 .top-navigation-bar a {
     color: rgb(255,255,255);
-    font-style: bold;
+    font-weight: bold;
     text-decoration: none;
 }
 
@@ -132,3 +132,39 @@ nav.top-navigation-bar {
     position: relative;
 }
 
+table.minimalist-table {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table.minimalist-table tr:hover {
+    background: rgba(0,0,0,0.1)
+}
+
+table.minimalist-table caption {
+    font-size: 1.5em;
+}
+
+table.minimalist-table th {
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}
+table.minimalist-table td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+table.minimalist-table td:hover {
+    background: rgba(0,0,0,0.1)
+}
+
+table.minimalist-table tr:last-child td {
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+}
