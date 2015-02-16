@@ -26,8 +26,8 @@
     <tr>
         <td>{{ bill.date }}</td>
         <td>{{ bill.title }}</td>
-        <td>{{ bill.transfers.0.sender }}</td>
-        <td>{% for transfer in bill.transfers.all %}{{ transfer.sender }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+        <td>{{ bill.transfers.all.0.sender }}</td>
+        <td>{% for transfer in bill.transfers.all %}{{ transfer.receiver }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
         <td>{{ bill.creator }}</td>
     </tr>
 {% endfor %}
