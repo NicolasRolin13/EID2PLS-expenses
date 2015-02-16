@@ -1,0 +1,17 @@
+p.welcome-text {
+    text-align: center;
+    font-size: 3em;
+}
+
+p.balance-text {
+    text-align: center;
+    font-size: 2em;
+}
+
+span.color-positive {
+    color: green;
+    }
+
+span.color-negative {
+    color: red;
+}

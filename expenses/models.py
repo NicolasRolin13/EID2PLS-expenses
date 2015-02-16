@@ -93,11 +93,11 @@ class Bill(models.Model):
 class ExtendedUser(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=20)
-    balance = models.DecimalField(max_digits=6, decimal_places=2, editable=False)
+    balance = models.DecimalField(max_digits=6, decimal_places=2, editable=False, default=0)
 
     def calculate_balance(self):
-        positive = sum(transfer.amount for transfers in self.senders.all())
-        negative = sum(transfer.amount for transfers in self.receivers.all())
+        positive = sum(transfer.amount for transfer in self.senders.all())
+        negative = sum(transfer.amount for transfer in self.receivers.all())
         return (positive - negative)
 
     def update_amount(self):

@@ -15,5 +15,6 @@ class BillForm(forms.ModelForm):
         model = Bill
 #        fields = ['category', 'amount', 'title', 'description']
         exclude = ['creator', 'date', 'repayment']
-    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
+
+    buyer = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
     receivers = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())

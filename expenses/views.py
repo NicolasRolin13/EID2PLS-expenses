@@ -9,24 +9,30 @@ from django.db.models import Q
 from expenses.forms import BillForm
 from expenses.models import Transfer, Bill, ExtendedUser
 
+import pdb
 # Custom views
 ###############
 
 @login_required
 def normal_bill_form(request):
     if request.POST:
-        submitted_form = BillForm(request.POST)
-        if submitted_form.is_valid():
-            bill_model = submitted_form.save(commit=False)
+        pdb.set_trace()
+        form = BillForm(request.POST)
+        if form.is_valid():
+            bill_model = form.save(commit=False)
             bill_model.creator = request.user.extendeduser
-            cleaned_form = submitted_form.cleaned_data
+            cleaned_form = form.cleaned_data
 
             bill_model.unsafe_save()
-            bill_model.create_transfers(cleaned_form['buyer'], cleaned_form['receivers'])
+            bill_model.create_transfers(cleaned_form['buyer'][0], cleaned_form['receivers'])
             bill_model.update_amount()
             bill_model.save()
-            render(request, 'thanks.html')
-    return render(request, 'basic_form.html', {'form':BillForm(request.POST)})
+            return render(request, 'thanks.html')
+    else:
+        form = BillForm()
+    return render(request, 'basic_form.html', {
+                'form':form,
+                })
 
 @login_required
 def view_history(request):
@@ -44,6 +50,18 @@ def whats_new(request):
     last_actions = Bill.objects.all().order_by('-id')[:10]
     last_actions_list = [(action, (user in action.list_of_people_involved())) for action in last_actions]
     return render(request, 'whatsnew.html', {'last_actions':last_actions_list})
+
+@login_required
+def view_home(request):
+    request.user.extendeduser.update_amount()
+    status = 'neutral'
+    if request.user.extendeduser.balance < 0:
+        status = 'negative'
+    elif request.user.extendeduser.balance > 0:
+        status = 'positive'
+    balance = request.user.extendeduser.balance
+    last_bills = Bill.objects.all().order_by('-id')[:10]
+    return render(request, 'home.html', {'balance': balance, 'status': status, 'last_bills': last_bills})
 
 # Login handling
 #################
