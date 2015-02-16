@@ -9,14 +9,12 @@ from django.db.models import Q
 from expenses.forms import BillForm
 from expenses.models import Transfer, Bill, ExtendedUser
 
-import pdb
 # Custom views
 ###############
 
 @login_required
 def normal_bill_form(request):
     if request.POST:
-        pdb.set_trace()
         form = BillForm(request.POST)
         if form.is_valid():
             bill_model = form.save(commit=False)
