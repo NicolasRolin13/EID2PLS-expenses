@@ -21,11 +21,11 @@ class Bill(models.Model):
     Model for transfers aggregation. Give a context and a description to a group of transfers.
     '''
     creator = models.ForeignKey('ExtendedUser')
-    category = models.ManyToManyField('Category')
+    category = models.ManyToManyField('Category', blank=True)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     repayment = models.BooleanField(editable=False, default=False)
 
     def calculate_amount(self):

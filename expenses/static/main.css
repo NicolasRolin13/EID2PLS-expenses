@@ -168,3 +168,11 @@ table.minimalist-table tr:last-child td {
     border-bottom-style: none;
     border-bottom-width: 0px;
 }
+
+span.color-positive {
+    color: green;
+}
+
+span.color-negative {
+    color: red;
+}
