@@ -9,8 +9,10 @@
         <header>
             <nav class="top-navigation-bar">
                 <ul>
-                    <li><a href="/">Accueil</a></li>
                     {% if user.is_authenticated %}
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'normal_bill_form' %}">Bill</a></li>
+                    <li><a href="{% url 'balances' %}">Accounts</a></li>
                     <li class="user-menu"><a href=#>{{ user.username }}</a>
                     <ul><li><a href=#>Logout</a></li></ul>
                     </li>

@@ -60,6 +60,11 @@ def view_home(request):
     last_bills = Bill.objects.all().order_by('-id')[:10]
     return render(request, 'home.html', {'balance': balance, 'status': status, 'last_bills': last_bills})
 
+@login_required
+def view_balances(request):
+    users = ExtendedUser.objects.all()
+    return render(request, 'balances.html', {'users': users})
+
 # Login handling
 #################
 

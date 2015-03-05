@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block context_header %}
+<link rel="stylesheet" href="/static/balances.css">
+{% endblock %}
+{% block main_content %}
+<div class="balance-text">Balance of users:</div>
+{% for user in users|dictsortreversed:"balance" %}
+    <span class="balance-username">{{ user.nickname }}</span>
+    <span class="balance-amount">{{ user.balance }}</span>
+{% endfor %}
+{% endblock %}

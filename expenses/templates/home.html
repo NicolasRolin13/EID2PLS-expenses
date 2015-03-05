@@ -9,7 +9,8 @@
 
 <p class="balance-text">You have <span class="color-{{ status }}">€{{ balance }}</span> in your account.</p>
 
-<a href="{% url 'normal_bill_form' %}">Add a new bill</a>
+<a href="{% url 'normal_bill_form' %}">New bill</a>
+<a href="{% url 'balances' %}">Accounts</a>
 <table class="minimalist-table">
     <caption>Last transactions:</caption>
     <thead>
