@@ -51,7 +51,6 @@ def whats_new(request):
 
 @login_required
 def view_home(request):
-    request.user.extendeduser.update_amount()
     status = 'neutral'
     if request.user.extendeduser.balance < 0:
         status = 'negative'
