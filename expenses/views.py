@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.debug import sensitive_post_parameters
 from django.db.models import Q
 
 from expenses.forms import BillForm
-from expenses.models import Transfer, Bill, ExtendedUser
+from expenses.models import Atom, Bill, ExtendedUser
 
 # Custom views
+###############
+
+
+## Bill related
 ###############
 
 @login_required
@@ -22,25 +26,34 @@ def normal_bill_form(request):
             cleaned_form = form.cleaned_data
 
             bill_model.unsafe_save()
-            bill_model.create_transfers(cleaned_form['buyer'][0], cleaned_form['receivers'])
+            bill_model.create_atoms(cleaned_form['buyer'][0], cleaned_form['receivers'])
             bill_model.update_amount()
             bill_model.save()
-            return render(request, 'thanks.html')
+            return redirect('home')
     else:
         form = BillForm()
     return render(request, 'basic_form.html', {
                 'form':form,
                 })
 
+
+@login_required
+def display_bill(request, bill_id):
+    repr(bill_id)
+    bill = get_object_or_404(Bill, pk=bill_id)
+    return render(request, 'display_bill.html', {'bill': bill})
+
+## Others
+################
 @login_required
 def view_history(request):
     user = request.user.extendeduser
-    senders_transfers = Transfer.objects.filter(sender=user).order_by('-id')[:20]
-    receivers_transfers = Transfer.objects.filter(receiver=user).order_by('-id')[:20]
+    buyers_atoms = Atom.objects.filter(user=user).filter(amount__gt=0).order_by('-id')[:20]
+    receivers_atoms = Atom.objects.filter(user=user).filter(amount__lt=0).order_by('-id')[:20]
 
-    senders_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in senders_transfers]
-    receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_transfers]
-    return render(request, 'history.html', {'senders':senders_table, 'receivers':receivers_table})
+    buyers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in buyers_atoms]
+    receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_atoms]
+    return render(request, 'history.html', {'buyers':buyers_table, 'receivers':receivers_table})
 
 @login_required
 def whats_new(request):
@@ -96,14 +109,3 @@ def do_login(request):
     else:
         request.session['next_page'] = params['next_page']
         return redirect('view_login_fail')
-
-# Useful functions
-##################
-
-def gen_list_of_optimal_repayment(users):
-    users = [user for user in users if user != 0]
-    if users:
-        users.sort()
-        amount = min(users[0].balance, -users[-1].balance)
-        transfert = Transfert(sender=users[-1], receiver=user[0], amount=amount)
-        yield transfert

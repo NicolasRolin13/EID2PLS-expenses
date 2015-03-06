@@ -26,11 +26,11 @@
         <th>Amount</th>
         <th>Date</th>
     </tr>
-    {% for sender in senders %}
+    {% for buyer in buyers %}
     <tr>
-        <td>{{ sender.0 }}</td>
-        <td>{{ sender.1 }}</td>
-        <td>{{ sender.2 }}</td>
+        <td>{{ buyer.0 }}</td>
+        <td>{{ buyer.1 }}</td>
+        <td>{{ buyer.2 }}</td>
     </tr>
     {% endfor %}
 </table>

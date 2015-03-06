@@ -1,5 +1,5 @@
 from django.contrib import admin
-from expenses.models import Transfer, Bill, ExtendedUser, Category, User
+from expenses.models import Atom, Bill, ExtendedUser, Category, User
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
@@ -12,4 +12,4 @@ class UserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register([Transfer, Bill, Category])
+admin.site.register([Atom, Bill, Category])
