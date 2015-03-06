@@ -9,8 +9,10 @@ class Atom(models.Model):
     child_of_bill = models.ForeignKey('Bill', related_name='atoms')
 
     def __str__(self):
-        return "%s: €%s for %s" % (self.user, self.amount, self.child_of_bill.title)
+        return "%s: %s for %s" % (self.user, self.localised_amount(), self.child_of_bill.title)
 
+    def localised_amount(self):
+        return "€%s" % (self.amount)
 class Bill(models.Model):
     '''
     Model for atoms aggregation. Give a context and a description to a group of atoms.
@@ -65,11 +67,17 @@ class Bill(models.Model):
         buyer_atom.child_of_bill = self
         buyer_atom.save()
 
+    def list_of_positive_atoms(self):
+        return [atom for atom in self.atoms.all() if atom.amount > 0]
+
+    def list_of_negative_atoms(self):
+        return [atom for atom in self.atoms.all() if atom.amount < 0]
+
     def list_of_buyers(self):
-        return [atom.user for atom in self.atoms.all() if atom.amount > 0]
+        return [atom.user for atom in self.list_of_positive_atoms()]
 
     def list_of_receivers(self):
-        return [atom.user for atom in self.atoms.all() if atom.amount < 0]
+        return [atom.user for atom in self.list_of_negative_atoms()]
 
     def list_of_people_involved(self):
         return list(set(self.list_of_buyers() + self.list_of_receivers()))

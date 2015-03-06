@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block context_header %}
+<link rel="stylesheet" href="/static/display_bill.css">
+{% endblock %}
+
+{% block main_content %}
+<h1 id="bill-title">{{ bill.title }}: €{{ bill.amount }}</h1>
+
+<div id="user-list">
+<ul id="buyer-list">Paid by:
+{% for buyer_atom in bill.list_of_positive_atoms %}
+    <li>{{ buyer_atom.user }} ({{ buyer_atom.localised_amount }})</li>
+{% endfor %}
+</ul>
+
+<ul id="receiver-list"> For:
+{% for receiver_atom in bill.list_of_negative_atoms %}
+    <li>{{ receiver_atom.user }} ({{ receiver_atom.localised_amount }})</li>
+{% endfor %}
+</ul>
+</div>
+
+{% if bill.description %}<p id="description">{{ bill.description }}</p>{% endif %}
+
+{% endblock %}

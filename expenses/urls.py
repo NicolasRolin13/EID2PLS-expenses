@@ -5,7 +5,8 @@ from expenses import views
 
 urlpatterns = patterns('',
             url(r'^$', views.view_home),
-            url(r'^bill/?$', views.normal_bill_form, name='normal_bill_form'),
+            url(r'^bill/create/?$', views.normal_bill_form, name='normal_bill_form'),
+            url(r'^bill/view/(?P<bill_id>\d+)/?$', views.display_bill, name='display_bill'),
             url(r'^accounts/login/?$', views.view_login, name='view_login'),
             url(r'^accounts/login/fail/?$', views.view_login, {'error' : 1}, name='view_login_fail'),
             url(r'^accounts/do_login/?$', views.do_login),
