@@ -9,6 +9,8 @@ from django.db.models import Q
 from expenses.forms import BillForm, RepaymentForm
 from expenses.models import Atom, Bill, ExtendedUser
 
+from django.core.exceptions import ValidationError
+
 # Custom views
 ###############
 
@@ -28,7 +30,11 @@ def normal_bill_form(request):
             bill_model.unsafe_save()
             bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['receivers'])
             bill_model.update_amount()
-            bill_model.save()
+            try:
+                bill_model.save()
+            except ValidationError:
+                bill_model.delete()
+                render(request, 'basic_form.html', {'form':form}) #TODO handle this properly
             return redirect('home')
     else:
         form = BillForm()
@@ -54,9 +60,13 @@ def repayment_form(request):
             cleaned_form = form.cleaned_data
 
             repayment_model.unsafe_save()
-            repayment_model.create_atoms(cleaned_form['buyer'], [cleaned_form['receiver']])
+            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'])
             repayment_model.update_amount()
-            repayment_model.save()
+            try:
+                repayment_model.save()
+            except ValidationError:
+                repayment_model.delete()
+                render(request, 'repayment_form.html', {'form':form}) #TODO handle this properly
             return redirect('home')
     else:
         form = RepaymentForm()
