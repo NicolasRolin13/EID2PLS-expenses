@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.debug import sensitive_post_parameters
 from django.db.models import Q
 
-from expenses.forms import BillForm
+from expenses.forms import BillForm, RepaymentForm
 from expenses.models import Atom, Bill, ExtendedUser
 
 # Custom views
@@ -26,7 +26,7 @@ def normal_bill_form(request):
             cleaned_form = form.cleaned_data
 
             bill_model.unsafe_save()
-            bill_model.create_atoms(cleaned_form['buyer'][0], cleaned_form['receivers'])
+            bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['receivers'])
             bill_model.update_amount()
             bill_model.save()
             return redirect('home')
@@ -39,9 +39,30 @@ def normal_bill_form(request):
 
 @login_required
 def display_bill(request, bill_id):
-    repr(bill_id)
     bill = get_object_or_404(Bill, pk=bill_id)
     return render(request, 'display_bill.html', {'bill': bill})
+
+@login_required
+def repayment_form(request):
+    if request.POST:
+        form = RepaymentForm(request.POST)
+        if form.is_valid():
+            repayment_model = form.save(commit=False)
+            repayment_model.repayment = True
+            repayment_model.creator = request.user.extendeduser
+            repayment_model.title = repayment_model.repayment_name()
+            cleaned_form = form.cleaned_data
+
+            repayment_model.unsafe_save()
+            repayment_model.create_atoms(cleaned_form['buyer'], [cleaned_form['receiver']])
+            repayment_model.update_amount()
+            repayment_model.save()
+            return redirect('home')
+    else:
+        form = RepaymentForm()
+    return render(request, 'repayment_form.html', {
+                'form':form,
+                })
 
 ## Others
 ################

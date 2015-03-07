@@ -82,6 +82,9 @@ class Bill(models.Model):
     def list_of_people_involved(self):
         return list(set(self.list_of_buyers() + self.list_of_receivers()))
 
+    def repayment_name(self):
+        return "Repayment: €%s" % (self.amount)
+
     @classmethod
     def check_global_integrity(cls):
         '''
@@ -122,7 +125,7 @@ class ExtendedUser(models.Model):
             else:
                 return self.balance < other.balance
         else:
-            return TypeError
+            return NotImplemented
 
     def __le__(self, other):
         if type(self) == type(other) or type(other) == int:
@@ -131,7 +134,7 @@ class ExtendedUser(models.Model):
             else:
                 return self.balance <= other.balance
         else:
-            return TypeError
+            return NotImplemented
 
     def __eq__(self, other):
         if type(self) == type(other) or type(other) == int:
@@ -140,7 +143,7 @@ class ExtendedUser(models.Model):
             else:
                 return self.balance == other.balance
         else:
-            return TypeError
+            return NotImplemented
 
     def __ne__(self, other):
         if type(self) == type(other) or type(other) == int:
@@ -149,7 +152,7 @@ class ExtendedUser(models.Model):
             else:
                 return self.balance != other.balance
         else:
-            return TypeError
+            return NotImplemented
 
     def __gt__(self, other):
         if type(self) == type(other) or type(other) == int:
@@ -158,7 +161,7 @@ class ExtendedUser(models.Model):
             else:
                 return self.balance > other.balance
         else:
-            return TypeError
+            return NotImplemented
 
     def __lt__(self, other):
         if type(self) == type(other) or type(other) == int:
@@ -167,7 +170,7 @@ class ExtendedUser(models.Model):
             else:
                 return self.balance >= other.balance
         else:
-            return TypeError
+            return NotImplemented
 
 class Category(models.Model):
     '''

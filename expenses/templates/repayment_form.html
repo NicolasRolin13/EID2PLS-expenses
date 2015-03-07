@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block context_header %}
+<link rel="stylesheet" href="/static/home.css">
+{% endblock %}
+{% block main_content %}
+<form action="" method="post">
+    <ul class=django-form>
+        {{ form.as_ul }}
+    </ul>
+    {% csrf_token %}
+    <input type=submit value="Submit" />
+</form>
+
+{% endblock %}
