@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+import decimal
+
 class Atom(models.Model):
     user = models.ForeignKey('ExtendedUser', related_name='atoms')
     amount = models.DecimalField(max_digits=6, decimal_places=2)
@@ -54,9 +56,17 @@ class Bill(models.Model):
         '''
         Create the list of atoms from one buyer to receivers by equal split method.
         '''
-        for receiver in receivers:
+
+        decimal.getcontext().rounding = decimal.ROUND_DOWN
+        nb_of_receivers = len(receivers)
+        missing_cents = self.amount*100%nb_of_receivers
+
+        for i, receiver in enumerate(receivers.order_by('?')):
             receiver_atom = Atom()
-            receiver_atom.amount = -self.amount/len(receivers)
+            if i < missing_cents:
+                receiver_atom.amount = (-self.amount/nb_of_receivers) - decimal.Decimal(0.01)
+            else:
+                receiver_atom.amount = -self.amount/nb_of_receivers
             receiver_atom.user = receiver
             receiver_atom.child_of_bill = self
             receiver_atom.save()
