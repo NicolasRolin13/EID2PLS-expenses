@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 
 import decimal
 
+
 class Atom(models.Model):
     """
     Model for elemental operation, which contain a user and a signed amount.
@@ -13,11 +14,12 @@ class Atom(models.Model):
     date = models.DateTimeField(auto_now=True)
     child_of_bill = models.ForeignKey('Bill', related_name='atoms')
 
-    def __str__(self): #TODO: code actual localisation
+    def __str__(self):  # TODO: code actual localisation
         return "%s: %s for %s" % (self.user, self.localised_amount(), self.child_of_bill.title)
 
     def localised_amount(self):
         return "€%s" % (self.amount)
+
 
 class Bill(models.Model):
     """
@@ -39,20 +41,21 @@ class Bill(models.Model):
             raise ValidationError("Current amount doesn't match the sum of atoms amounts")
         super().save(*args, **kwargs)
 
-    def unsafe_save(self, *args, **kwargs): #TODO: Remove this kludge
+    def unsafe_save(self, *args, **kwargs):  # TODO: Remove this kludge
         """
         Registers the currnet ```Bill``` instance to SQL database without integrity check.
         Used for bootstraping the registration of atoms.
         """
         super().save(*args, **kwargs)
 
-
     def check_integrity(self):
         """
         Checks if the amount of the ```Bill``` instance match the sum of his atoms amount.
         Useful to check if some atoms were modified manually.
         """
-        return self.calculate_positive_amount() == self.amount and (self.calculate_positive_amount() + self.calculate_negative_amount()) == 0
+        is_equal = self.calculate_positive_amount() == self.amount
+        is_null = (self.calculate_positive_amount() + self.calculate_negative_amount()) == 0
+        return is_equal and is_null
 
     @classmethod
     def check_global_integrity(cls):
@@ -61,13 +64,11 @@ class Bill(models.Model):
         """
         return [failure for failure in cls.objects.all() if not failure.check_integrity()]
 
-
     def repayment_name(self):
         """
         Gives the title for a repayment bill.
         """
         return "Repayment: €%s" % (self.amount)
-
 
     def calculate_positive_amount(self):
         """
@@ -87,17 +88,15 @@ class Bill(models.Model):
         """
         self.amount = self.calculate_positive_amount()
 
-
     def create_atoms(self, buyer, receivers):
         """
         Creates the list of atoms from one ```buyer``` to ```receivers``` by equal split method.
         If the amount is not a number of ```receivers``` multiple, gives the remaining cents to random ```receivers```.
         """
-
         decimal.getcontext().rounding = decimal.ROUND_DOWN
         receivers = receivers.order_by('?')
         nb_of_receivers = len(receivers)
-        missing_cents = self.amount*100%nb_of_receivers
+        missing_cents = self.amount*100 % nb_of_receivers
 
         for i, receiver in enumerate(receivers):
             receiver_atom = Atom()
@@ -114,7 +113,6 @@ class Bill(models.Model):
         buyer_atom.user = buyer
         buyer_atom.child_of_bill = self
         buyer_atom.save()
-
 
     def list_of_positive_atoms(self):
         """
@@ -153,6 +151,7 @@ class ExtendedUser(models.Model):
     """
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=20)
+
     @property
     def balance(self):
         """
@@ -160,14 +159,12 @@ class ExtendedUser(models.Model):
         """
         return sum([atom.amount for atom in self.atoms.all()])
 
-
     def __str__(self):
         return self.nickname
 
-
     def __lt__(self, other):
         if type(self) == type(other) or type(other) == int:
-            if type(other) ==  int:
+            if type(other) == int:
                 return self.balance < other
             else:
                 return self.balance < other.balance
@@ -176,7 +173,7 @@ class ExtendedUser(models.Model):
 
     def __le__(self, other):
         if type(self) == type(other) or type(other) == int:
-            if type(other) ==  int:
+            if type(other) == int:
                 return self.balance <= other
             else:
                 return self.balance <= other.balance
@@ -185,7 +182,7 @@ class ExtendedUser(models.Model):
 
     def __eq__(self, other):
         if type(self) == type(other) or type(other) == int:
-            if type(other) ==  int:
+            if type(other) == int:
                 return self.balance == other
             else:
                 return self.balance == other.balance
@@ -194,7 +191,7 @@ class ExtendedUser(models.Model):
 
     def __ne__(self, other):
         if type(self) == type(other) or type(other) == int:
-            if type(other) ==  int:
+            if type(other) == int:
                 return self.balance != other
             else:
                 return self.balance != other.balance
@@ -203,16 +200,16 @@ class ExtendedUser(models.Model):
 
     def __gt__(self, other):
         if type(self) == type(other) or type(other) == int:
-            if type(other) ==  int:
+            if type(other) == int:
                 return self.balance > other
             else:
                 return self.balance > other.balance
         else:
             return NotImplemented
 
-    def __lt__(self, other):
+    def __ge__(self, other):
         if type(self) == type(other) or type(other) == int:
-            if type(other) ==  int:
+            if type(other) == int:
                 return self.balance >= other
             else:
                 return self.balance >= other.balance

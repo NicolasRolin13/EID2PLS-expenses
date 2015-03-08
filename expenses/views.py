@@ -4,14 +4,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.debug import sensitive_post_parameters
-from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 from expenses.forms import BillForm, RepaymentForm
 from expenses.models import Atom, Bill, ExtendedUser
 
 
-## Bill related
+# Bill related
 ###############
 
 @login_required
@@ -33,13 +32,13 @@ def normal_bill_form(request):
                 bill_model.save()
             except ValidationError:
                 bill_model.delete()
-                render(request, 'basic_form.html', {'form':form}) #TODO handle this properly
+                render(request, 'basic_form.html', {'form': form})  # TODO handle this properly
             return redirect('home')
     else:
         form = BillForm(initial={'buyer': request.user.extendeduser})
     return render(request, 'basic_form.html', {
-                'form':form,
-                })
+                  'form': form,
+                  })
 
 
 @login_required
@@ -49,6 +48,7 @@ def display_bill(request, bill_id):
     """
     bill = get_object_or_404(Bill, pk=bill_id)
     return render(request, 'display_bill.html', {'bill': bill})
+
 
 @login_required
 def repayment_form(request):
@@ -71,15 +71,16 @@ def repayment_form(request):
                 repayment_model.save()
             except ValidationError:
                 repayment_model.delete()
-                render(request, 'repayment_form.html', {'form':form}) #TODO handle this properly
+                render(request, 'repayment_form.html', {'form': form})  # TODO handle this properly
             return redirect('home')
     else:
         form = RepaymentForm(initial={'buyer': request.user.extendeduser})
     return render(request, 'repayment_form.html', {
-                'form':form,
-                })
+                  'form': form,
+                  })
 
-## Others
+
+# Others
 ################
 @login_required
 def view_history(request):
@@ -92,14 +93,16 @@ def view_history(request):
 
     buyers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in buyers_atoms]
     receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_atoms]
-    return render(request, 'history.html', {'buyers':buyers_table, 'receivers':receivers_table})
+    return render(request, 'history.html', {'buyers': buyers_table, 'receivers': receivers_table})
+
 
 @login_required
-def whats_new(request): #TODO: Remove this view ?
+def whats_new(request):  # TODO: Remove this view ?
     user = request.user.extendeduser
     last_actions = Bill.objects.all().order_by('-id')[:10]
     last_actions_list = [(action, (user in action.list_of_people_involved())) for action in last_actions]
-    return render(request, 'whatsnew.html', {'last_actions':last_actions_list})
+    return render(request, 'whatsnew.html', {'last_actions': last_actions_list})
+
 
 @login_required
 def view_home(request):
@@ -116,6 +119,7 @@ def view_home(request):
     last_bills = Bill.objects.all().order_by('-id')[:10]
     return render(request, 'home.html', {'balance': balance, 'status': status, 'last_bills': last_bills})
 
+
 @login_required
 def view_balances(request):
     """
@@ -124,9 +128,9 @@ def view_balances(request):
     users = ExtendedUser.objects.all()
     return render(request, 'balances.html', {'users': users})
 
+
 # Login handling
 #################
-
 @login_required
 def view_logout(request):
     """
@@ -135,13 +139,15 @@ def view_logout(request):
     logout(request)
     return render(request, 'logout.html')
 
+
 def view_login(request, error=None):
     """
     Returns the login page.
     """
     if 'next' in request.GET:
         request.session['next_page'] = request.GET['next']
-    return render(request, 'login.html', {'error' : error})
+    return render(request, 'login.html', {'error': error})
+
 
 @sensitive_post_parameters('password')
 def do_login(request):
@@ -150,7 +156,7 @@ def do_login(request):
     Returns the ask page if success.
     Returns the login page if not.
     """
-    params = {'username' : '', 'password' : '', 'next_page' : '/'}
+    params = {'username': '', 'password': '', 'next_page': '/'}
 
     for (key, value) in request.POST.items():
         params[key] = value

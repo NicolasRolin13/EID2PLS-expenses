@@ -3,7 +3,7 @@
 
 from django import forms
 from expenses.models import Bill, ExtendedUser
-from django.contrib.auth.models import User
+
 
 class BillForm(forms.ModelForm):
     """
