@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 {% block main_content %}
 <center>
-<h2>Merci de vous connecter.</h2>
+<h2>Please log in.</h2>
 <form class="ym-form ym-columnar" action="/accounts/do_login/" method="post" style="width: 600px">{% csrf_token %}
     <div class="ym-fbox {% if error == 1 %}ym-error{% endif %}">
     {% if error == 1 %}
-        <p class="ym-message">Erreur : Couple login/mot de passe incorrect</p>
+        <p class="ym-message">Error: Incorrect login or password</p>
     {% endif %}
         
         <div class="ym-fbox ym-fbox-text">
-        <label for="username">Nom d'utilisateur</label>
+        <label for="username">Username</label>
         <input id="username" type="text" name="username" autofocus>
         </div>
 
         <div class="ym-fbox ym-fbox-text">
-        <label for"password">Mot de passe</label>
+        <label for"password">Password</label>
         <input id="password" type="password" name="password">
         </div>
     </div>
 
     <div class="ym-fbox-footer ym-fbox-button">
-        <input type="submit" class="ym-button ym-primary" id="submit" value="Se connecter">
+        <input type="submit" class="ym-button ym-primary" id="submit" value="Log in">
     </div>
 </form>
 </center>

@@ -43,8 +43,8 @@ class Bill(models.Model):
 
     def unsafe_save(self, *args, **kwargs):  # TODO: Remove this kludge
         """
-        Registers the currnet ```Bill``` instance to SQL database without integrity check.
-        Used for bootstraping the registration of atoms.
+        Registers the current ```Bill``` instance to SQL database without integrity check.
+        Used for bootstrapping the registration of atoms.
         """
         super().save(*args, **kwargs)
 
