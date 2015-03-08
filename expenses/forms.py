@@ -16,7 +16,7 @@ class BillForm(forms.ModelForm):
         model = Bill
         exclude = ['creator', 'date', 'repayment']
 
-    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
+    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
     receivers = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
 
 
@@ -28,5 +28,5 @@ class RepaymentForm(forms.ModelForm):
         model = Bill
         fields = ['amount']
 
-    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
+    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
     receiver = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())

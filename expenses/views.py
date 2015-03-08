@@ -37,7 +37,7 @@ def normal_bill_form(request):
                 render(request, 'basic_form.html', {'form':form}) #TODO handle this properly
             return redirect('home')
     else:
-        form = BillForm()
+        form = BillForm(initial={'buyer': request.user.extendeduser})
     return render(request, 'basic_form.html', {
                 'form':form,
                 })
@@ -69,7 +69,7 @@ def repayment_form(request):
                 render(request, 'repayment_form.html', {'form':form}) #TODO handle this properly
             return redirect('home')
     else:
-        form = RepaymentForm()
+        form = RepaymentForm(initial={'buyer': request.user.extendeduser})
     return render(request, 'repayment_form.html', {
                 'form':form,
                 })
