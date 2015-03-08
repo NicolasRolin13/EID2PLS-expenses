@@ -88,25 +88,31 @@ class Bill(models.Model):
         """
         self.amount = self.calculate_positive_amount()
 
-    def create_atoms(self, buyer, receivers):
+    def create_atoms(self, buyer, receivers, is_repayment=False):
         """
         Creates the list of atoms from one ```buyer``` to ```receivers``` by equal split method.
         If the amount is not a number of ```receivers``` multiple, gives the remaining cents to random ```receivers```.
         """
         decimal.getcontext().rounding = decimal.ROUND_DOWN
-        receivers = receivers.order_by('?')
-        nb_of_receivers = len(receivers)
-        missing_cents = self.amount*100 % nb_of_receivers
-
-        for i, receiver in enumerate(receivers):
+        if is_repayment:
             receiver_atom = Atom()
-            if i < missing_cents:
-                receiver_atom.amount = (-self.amount/nb_of_receivers) - decimal.Decimal(0.01)
-            else:
-                receiver_atom.amount = -self.amount/nb_of_receivers
-            receiver_atom.user = receiver
+            receiver_atom.user = receivers
+            receiver_atom.amount = -self.amount
             receiver_atom.child_of_bill = self
             receiver_atom.save()
+        else:
+            receivers = receivers.order_by('?')
+            nb_of_receivers = len(receivers)
+            missing_cents = self.amount*100 % nb_of_receivers
+            for i, receiver in enumerate(receivers):
+                receiver_atom = Atom()
+                if i < missing_cents:
+                    receiver_atom.amount = (-self.amount/nb_of_receivers) - decimal.Decimal(0.01)
+                else:
+                    receiver_atom.amount = -self.amount/nb_of_receivers
+                receiver_atom.user = receiver
+                receiver_atom.child_of_bill = self
+                receiver_atom.save()
 
         buyer_atom = Atom()
         buyer_atom.amount = self.amount

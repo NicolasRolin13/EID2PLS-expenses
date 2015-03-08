@@ -65,7 +65,7 @@ def repayment_form(request):
             cleaned_form = form.cleaned_data
 
             repayment_model.unsafe_save()
-            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'])
+            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'], True)
             repayment_model.update_amount()
             try:
                 repayment_model.save()
