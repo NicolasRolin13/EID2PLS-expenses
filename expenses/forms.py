@@ -19,6 +19,16 @@ class BillForm(forms.ModelForm):
         model = Bill
         exclude = ['creator', 'date', 'repayment']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['category'].widget.attrs['class'] = 'u-full-width'
+        self.fields['amount'].widget.attrs['class'] = 'u-full-width'
+        self.fields['title'].widget.attrs['class'] = 'u-full-width'
+        self.fields['description'].widget.attrs['class'] = 'u-full-width'
+        self.fields['buyer'].widget.attrs['class'] = 'u-full-width'
+        self.fields['receivers'].widget.attrs['class'] = 'u-full-width'
+#        self.fields['receivers'].widget.attrs['size'] = min(len(self.fields), 10)
+
 
 class RepaymentForm(forms.ModelForm):
     """

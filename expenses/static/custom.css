@@ -1,0 +1,51 @@
+.container {
+    max-width: 1360px;
+}
+
+body {
+    font-size:2em;
+    font-family: "Linux Libertine O", Palatino, serif;
+}
+
+select {
+    height: 100%;
+}
+
+textarea {
+    height: 100%
+}
+
+/* Navbar */
+nav {
+    width:100%;
+    text-align: justify;
+}
+nav ul {
+    margin: 0 auto;
+    max-width: 1360px;
+}
+
+nav ul li {
+    display:inline;
+    margin: 10px;
+}
+
+nav a {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Misc */
+.h-centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table tr:hover{
+    background: rgba(0,0,0,0.1)
+}

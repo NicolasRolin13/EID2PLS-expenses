@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 
 {% block context_header %}
-<link rel="stylesheet" href="/static/home.css">
 {% endblock %}
 {% block main_content %}
 
-<p class="welcome-text">Welcome {{ user.extendeduser.nickname }}.</p>
+<h1>Welcome {{ user.extendeduser.nickname }}.</h1>
 
-<p class="balance-text">You have <span class="color-{{ status }}">€{{ balance }}</span> in your account.</p>
+<h2>You have <span class="color-{{ status }}">€{{ balance }}</span> on your account.</h2>
 
-<a href="{% url 'normal_bill_form' %}">Create a new bill</a>
-<a href="{% url 'balances' %}">See accounts</a>
-<a href="{% url 'repayment_form' %}">Declare a repayment</a>
-<table class="minimalist-table">
+<div class="row">
+    <div class="three columns">
+        <a href="{% url 'normal_bill_form' %}"><button>Create a new bill</button></a>
+    </div>
+    <div class="three columns">
+        <a href="{% url 'balances' %}"><button>See accounts</button></a>
+    </div>
+    <div class="three columns">
+        <a href="{% url 'repayment_form' %}"><button>Declare a repayment</button></a>
+    </div>
+</div>
+<table class="u-full-width">
     <caption>Last transactions:</caption>
     <thead>
     <tr>
