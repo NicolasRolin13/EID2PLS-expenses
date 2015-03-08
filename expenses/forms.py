@@ -6,9 +6,12 @@ from expenses.models import Bill, ExtendedUser
 from django.contrib.auth.models import User
 
 class BillForm(forms.ModelForm):
-    '''
-    Form for non-repayment bill.
-    '''
+    """
+    Form for non-repayment ```Bill```.
+    """
+    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
+    receivers = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
+
     error_css_class = 'error'
     required_css_class = 'required'
 
@@ -16,17 +19,17 @@ class BillForm(forms.ModelForm):
         model = Bill
         exclude = ['creator', 'date', 'repayment']
 
-    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
-    receivers = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
-
 
 class RepaymentForm(forms.ModelForm):
+    """
+    Form for repayment ```Bill```.
+    """
+    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
+    receiver = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
+
     error_css_class = 'error'
     required_css_class = 'required'
 
     class Meta:
         model = Bill
         fields = ['amount']
-
-    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
-    receiver = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())

@@ -2,8 +2,6 @@ from django.contrib import admin
 from expenses.models import Atom, Bill, ExtendedUser, Category, User
 from django.contrib.auth.admin import UserAdmin
 
-# Register your models here.
-
 class ExtendedUserInline(admin.StackedInline):
     model = ExtendedUser
 

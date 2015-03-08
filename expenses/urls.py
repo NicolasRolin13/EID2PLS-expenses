@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
+
 from expenses import views
 
 urlpatterns = patterns('',

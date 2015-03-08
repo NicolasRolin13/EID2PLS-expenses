@@ -5,14 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.debug import sensitive_post_parameters
 from django.db.models import Q
+from django.core.exceptions import ValidationError
 
 from expenses.forms import BillForm, RepaymentForm
 from expenses.models import Atom, Bill, ExtendedUser
-
-from django.core.exceptions import ValidationError
-
-# Custom views
-###############
 
 
 ## Bill related
@@ -20,6 +16,9 @@ from django.core.exceptions import ValidationError
 
 @login_required
 def normal_bill_form(request):
+    """
+    View handling for non repayment ```Bill```.
+    """
     if request.POST:
         form = BillForm(request.POST)
         if form.is_valid():
@@ -45,11 +44,17 @@ def normal_bill_form(request):
 
 @login_required
 def display_bill(request, bill_id):
+    """
+    Returns a presentation page for the ```Bill``` instance corresponding to ```bill_id```.
+    """
     bill = get_object_or_404(Bill, pk=bill_id)
     return render(request, 'display_bill.html', {'bill': bill})
 
 @login_required
 def repayment_form(request):
+    """
+    View handling for repayment ```Bill```.
+    """
     if request.POST:
         form = RepaymentForm(request.POST)
         if form.is_valid():
@@ -78,6 +83,9 @@ def repayment_form(request):
 ################
 @login_required
 def view_history(request):
+    """
+    Returns a presentation of the last 20 operations as a buyer and as a receiver.
+    """
     user = request.user.extendeduser
     buyers_atoms = Atom.objects.filter(user=user).filter(amount__gt=0).order_by('-id')[:20]
     receivers_atoms = Atom.objects.filter(user=user).filter(amount__lt=0).order_by('-id')[:20]
@@ -87,7 +95,7 @@ def view_history(request):
     return render(request, 'history.html', {'buyers':buyers_table, 'receivers':receivers_table})
 
 @login_required
-def whats_new(request):
+def whats_new(request): #TODO: Remove this view ?
     user = request.user.extendeduser
     last_actions = Bill.objects.all().order_by('-id')[:10]
     last_actions_list = [(action, (user in action.list_of_people_involved())) for action in last_actions]
@@ -95,6 +103,10 @@ def whats_new(request):
 
 @login_required
 def view_home(request):
+    """
+    Returns the ```User``` home page.
+    Contains the user ```balance``` and the last 10 bills registered.
+    """
     status = 'neutral'
     if request.user.extendeduser.balance < 0:
         status = 'negative'
@@ -106,6 +118,9 @@ def view_home(request):
 
 @login_required
 def view_balances(request):
+    """
+    Returns a presentation of the ```balance``` of each users.
+    """
     users = ExtendedUser.objects.all()
     return render(request, 'balances.html', {'users': users})
 
@@ -114,16 +129,27 @@ def view_balances(request):
 
 @login_required
 def view_logout(request):
+    """
+    Returns the logout page.
+    """
     logout(request)
     return render(request, 'logout.html')
 
 def view_login(request, error=None):
+    """
+    Returns the login page.
+    """
     if 'next' in request.GET:
         request.session['next_page'] = request.GET['next']
     return render(request, 'login.html', {'error' : error})
 
 @sensitive_post_parameters('password')
 def do_login(request):
+    """
+    Handles a login request.
+    Returns the ask page if success.
+    Returns the login page if not.
+    """
     params = {'username' : '', 'password' : '', 'next_page' : '/'}
 
     for (key, value) in request.POST.items():
