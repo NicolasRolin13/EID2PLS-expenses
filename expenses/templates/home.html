@@ -25,6 +25,7 @@
     <tr>
         <th>Date</th>
         <th>Name</th>
+        <th>Amount</th>
         <th>Paid by</th>
         <th>For</th>
         <th>Created by</th>
@@ -35,6 +36,7 @@
     <tr>
         <td>{{ bill.date }}</td>
         <td><a href="{% url 'display_bill' bill.pk %}">{{ bill.title }}</a></td>
+        <td>{{ bill.amount }}</td>
         <td>{% for buyer in bill.list_of_buyers %}{{ buyer.user }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
         <td>{% for receiver in bill.list_of_receivers %}{{ receiver.user }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
         <td>{{ bill.creator }}</td>

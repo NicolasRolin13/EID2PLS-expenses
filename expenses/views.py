@@ -108,7 +108,7 @@ def whats_new(request):  # TODO: Remove this view ?
 def view_home(request):
     """
     Returns the ```User``` home page.
-    Contains the user ```balance``` and the last 10 bills registered.
+    Contains the user ```balance``` and the last 5 bills registered.
     """
     status = 'neutral'
     if request.user.extendeduser.balance < 0:
@@ -116,7 +116,7 @@ def view_home(request):
     elif request.user.extendeduser.balance > 0:
         status = 'positive'
     balance = request.user.extendeduser.balance
-    last_bills = Bill.objects.all().order_by('-id')[:10]
+    last_bills = Bill.objects.all().order_by('-id')[:5]
     return render(request, 'home.html', {'balance': balance, 'status': status, 'last_bills': last_bills})
 
 

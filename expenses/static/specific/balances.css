@@ -1,0 +1,11 @@
+span.columns {
+    font-size: 2.5rem;
+}
+
+span.nickname {
+    text-align: right;
+}
+
+span.current-user {
+    font-weight: bold;
+}

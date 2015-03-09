@@ -3,7 +3,7 @@
 }
 
 body {
-    font-size:2em;
+    font-size: 2em;
     font-family: "Linux Libertine O", Palatino, serif;
 }
 
@@ -23,11 +23,38 @@ nav {
 nav ul {
     margin: 0 auto;
     max-width: 1360px;
+    border-style: solid;
+    border-width: 0px;
+    border-bottom-width: 1px;
+    border-color: #bbb;
 }
 
 nav ul li {
-    display:inline;
+    display: inline;
     margin: 10px;
+}
+
+nav ul ul {
+    font-size: 100%;
+    display: inline-flex;
+    border-style: none;
+}
+
+nav ul ul li{
+    display: none;
+    visibility: hidden;
+    transition: visibility 2s;
+}
+
+nav ul ul li:first-child {
+    display: inline;
+    visibility: visible;
+}
+
+nav ul ul:hover li {
+    display: inline;
+    visibility: visible;
+    transition: visibility 2s;
 }
 
 nav a {
@@ -46,6 +73,10 @@ nav a:hover {
     margin-right: auto;
 }
 
-table tr:hover{
+table tbody tr:hover{
     background: rgba(0,0,0,0.1)
+}
+
+table caption {
+    font-size: 3.5rem;
 }

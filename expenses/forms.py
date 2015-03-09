@@ -27,7 +27,6 @@ class BillForm(forms.ModelForm):
         self.fields['description'].widget.attrs['class'] = 'u-full-width'
         self.fields['buyer'].widget.attrs['class'] = 'u-full-width'
         self.fields['receivers'].widget.attrs['class'] = 'u-full-width'
-#        self.fields['receivers'].widget.attrs['size'] = min(len(self.fields), 10)
 
 
 class RepaymentForm(forms.ModelForm):
@@ -43,3 +42,9 @@ class RepaymentForm(forms.ModelForm):
     class Meta:
         model = Bill
         fields = ['amount']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['amount'].widget.attrs['class'] = 'u-full-width'
+        self.fields['buyer'].widget.attrs['class'] = 'u-full-width'
+        self.fields['receiver'].widget.attrs['class'] = 'u-full-width'

@@ -1,15 +1,25 @@
 {% extends "base.html" %}
 
 {% block context_header %}
-<link rel="stylesheet" href="/static/home.css">
 {% endblock %}
 {% block main_content %}
 <form action="" method="post">
-    <ul class=django-form>
-        {{ form.as_ul }}
-    </ul>
+    <div class="row">
+        <div class="four columns">
+         {{ form.amount.label_tag}}
+         {{ form.amount }}
+        </div>
+        <div class="four columns">
+         {{ form.buyer.label_tag}}
+         {{ form.buyer }}
+        </div>
+        <div class="four columns">
+         {{ form.receiver.label_tag}}
+         {{ form.receiver }}
+        </div>
+    </div>
     {% csrf_token %}
-    <input type=submit value="Submit" />
+    <input class="button-primary" type=submit value="Submit" />
 </form>
 
 {% endblock %}
