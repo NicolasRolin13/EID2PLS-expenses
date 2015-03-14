@@ -1,6 +1,8 @@
 [run]
 data_file = ./coverage/data
 source = ./
+omit = */__init__.py
+       */migrations/*
 
 [report]
 precision = 1
