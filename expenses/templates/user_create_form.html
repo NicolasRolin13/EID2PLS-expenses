@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block context_header %}
+{% endblock %}
+{% block main_content %}
+<form action="" method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <input class="button-primary" type=submit value="Submit" />
+</form>
+
+{% endblock %}

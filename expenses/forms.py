@@ -4,6 +4,8 @@
 from django import forms
 from expenses.models import Bill, ExtendedUser
 
+from django.contrib.auth.forms import UserCreationForm
+
 
 class BillForm(forms.ModelForm):
     """
@@ -48,3 +50,15 @@ class RepaymentForm(forms.ModelForm):
         self.fields['amount'].widget.attrs['class'] = 'u-full-width'
         self.fields['buyer'].widget.attrs['class'] = 'u-full-width'
         self.fields['receiver'].widget.attrs['class'] = 'u-full-width'
+
+
+class ExtendedUserCreationForm(UserCreationForm):
+    nickname = forms.CharField(max_length=50)
+
+    error_css_class = 'error'
+    required_css_class = 'required'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        extended_user = ExtendedUser(user=self.instance, nickname=self.cleaned_data['nickname'])
+        extended_user.save()

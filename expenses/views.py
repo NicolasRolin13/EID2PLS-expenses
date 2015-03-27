@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -88,6 +88,12 @@ class UserCreateView(FormView):
 
 # Others
 ###################
+
+def view_root(request):
+    if request.user.is_authenticated():
+        return redirect('home')
+    else:
+        return render(request, 'root.html')
 
 @login_required
 def view_history(request):
