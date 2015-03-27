@@ -1,44 +1,41 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, get_object_or_404
+from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.debug import sensitive_post_parameters
+from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
+from django.views.generic.edit import FormView
 
-from expenses.forms import BillForm, RepaymentForm
+from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm
 from expenses.models import Atom, Bill, ExtendedUser
 
 
 # Bill related
-###############
+###################
 
-@login_required
-def normal_bill_form(request):
-    """
-    View handling for non repayment ```Bill```.
-    """
-    if request.POST:
-        form = BillForm(request.POST)
-        if form.is_valid():
-            bill_model = form.save(commit=False)
-            bill_model.creator = request.user.extendeduser
-            cleaned_form = form.cleaned_data
+class NormalBillView(FormView):
+    template_name = 'basic_form.html'
+    form_class = BillForm
+    success_url = reverse_lazy('home')
 
-            bill_model.unsafe_save()
-            bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['receivers'])
-            bill_model.update_amount()
-            try:
-                bill_model.save()
-            except ValidationError:
-                bill_model.delete()
-                render(request, 'basic_form.html', {'form': form})  # TODO handle this properly
-            return redirect('home')
-    else:
-        form = BillForm(initial={'buyer': request.user.extendeduser})
-    return render(request, 'basic_form.html', {
-                  'form': form,
-                  })
+    def form_valid(self, form):
+        bill_model = form.save(commit=False)
+        bill_model.creator = self.request.user.extendeduser
+        cleaned_form = form.cleaned_data
+
+        bill_model.unsafe_save()
+        bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['receivers'])
+        bill_model.update_amount()
+        try:
+            bill_model.save()
+        except ValidationError:
+            bill_model.delete()
+        return super().form_valid(form)
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 @login_required
@@ -50,38 +47,48 @@ def display_bill(request, bill_id):
     return render(request, 'display_bill.html', {'bill': bill})
 
 
-@login_required
-def repayment_form(request):
-    """
-    View handling for repayment ```Bill```.
-    """
-    if request.POST:
-        form = RepaymentForm(request.POST)
-        if form.is_valid():
-            repayment_model = form.save(commit=False)
-            repayment_model.repayment = True
-            repayment_model.creator = request.user.extendeduser
-            repayment_model.title = repayment_model.repayment_name()
-            cleaned_form = form.cleaned_data
+class RepaymentView(FormView):
+    template_name = 'repayment_form.html'
+    form_class = RepaymentForm
+    success_url = reverse_lazy('home')
 
-            repayment_model.unsafe_save()
-            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'], True)
-            repayment_model.update_amount()
-            try:
-                repayment_model.save()
-            except ValidationError:
-                repayment_model.delete()
-                render(request, 'repayment_form.html', {'form': form})  # TODO handle this properly
-            return redirect('home')
-    else:
-        form = RepaymentForm(initial={'buyer': request.user.extendeduser})
-    return render(request, 'repayment_form.html', {
-                  'form': form,
-                  })
+    def form_valid(self, form):
+        repayment_model = form.save(commit=False)
+        repayment_model.repayment = True
+        repayment_model.creator = self.request.user.extendeduser
+        repayment_model.title = repayment_model.repayment_name()
+        cleaned_form = form.cleaned_data
+
+        repayment_model.unsafe_save()
+        repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'], True)
+        repayment_model.update_amount()
+        try:
+            repayment_model.save()
+        except ValidationError:
+            repayment_model.delete()
+        return super().form_valid(form)
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+
+# User management
+###################
+
+class UserCreateView(FormView):
+    template_name = 'user_create_form.html'
+    form_class = ExtendedUserCreationForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
 # Others
-################
+###################
+
 @login_required
 def view_history(request):
     """
