@@ -19,7 +19,7 @@ from expenses.models import Atom, Bill, ExtendedUser
 class WizardBillView(SessionWizardView):
     TEMPLATES = {'0': 'bill_wizard/bill_form.html',
         '1': 'bill_wizard/split.html',
-        '2': 'bill_wizard/bill_form.html'}
+        '2': 'bill_wizard/confirmation.html'}
 
     def get_template_names(self):
         return self.TEMPLATES[self.steps.current]
@@ -30,20 +30,32 @@ class WizardBillView(SessionWizardView):
             step = self.steps.current
 
         if step != '0':
-            base_data = self.get_cleaned_data_for_step('0')
-            receivers = base_data['receivers']
-            amount = base_data['amount']
+            self.base_data = self.get_cleaned_data_for_step('0')
+            receivers = self.base_data['receivers']
+            total_amount = self.base_data['amount']
 
         if step == '1':
             num = len(receivers)
             BillFormset = formset_factory(CustomSplitForm, formset=CustomSplitFormSet, max_num=num, min_num=num, validate_max=True, validate_min=True)
-            formset = BillFormset(amount, data)
+            formset = BillFormset(total_amount, data)
             for (form, user) in zip(formset, receivers):
                 form.user = user
+            self.atom_forms = [form for form in formset]
             return formset
 
         else:
             return base_form
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+
+        if self.steps.current == '2':
+            buyer = {'user': self.base_data['buyer'], 'amount': self.base_data['amount']}
+            participants = [{'user': form.user, 'amount': form.cleaned_data['amount']} for form in self.atom_forms]
+            context.update({'buyer': buyer})
+            context.update({'participants': participants})
+
+        return context
 
     def done(self, form_list, form_dict, **kwargs):
         bill_model = form_dict['0'].save(commit=False)
