@@ -48,8 +48,22 @@ class CustomSplitForm(forms.ModelForm):
         else:
             super().save(commit=True, *args, **kwargs)
 
+
+class CustomSplitFormSet(forms.formsets.BaseFormSet):
+    def clean(self, *args, **kwargs):
+        super().clean(*args, **kwargs)
+        total_amount = sum([form.cleaned_data['amount'] for form in self.forms])
+        if self.total_amount != total_amount:
+            raise forms.ValidationError("Sum of amount doesn't match the bill amount" )
+
+    def __init__(self, total_amount, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.total_amount = total_amount
+
+
 class EmptyForm(forms.Form):
     pass
+
 
 class RepaymentForm(forms.ModelForm):
     """

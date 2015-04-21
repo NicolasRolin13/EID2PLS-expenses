@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 from django.contrib.formtools.wizard.views import SessionWizardView
 from django.forms.models import formset_factory
 
-from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, CustomSplitForm
+from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, CustomSplitForm, CustomSplitFormSet
 from expenses.models import Atom, Bill, ExtendedUser
 
 
@@ -32,11 +32,12 @@ class WizardBillView(SessionWizardView):
         if step != '0':
             base_data = self.get_cleaned_data_for_step('0')
             receivers = base_data['receivers']
+            amount = base_data['amount']
 
         if step == '1':
             num = len(receivers)
-            BillFormset = formset_factory(CustomSplitForm, max_num=num, min_num=num, validate_max=True, validate_min=True)
-            formset = BillFormset(data)
+            BillFormset = formset_factory(CustomSplitForm, formset=CustomSplitFormSet, max_num=num, min_num=num, validate_max=True, validate_min=True)
+            formset = BillFormset(amount, data)
             for (form, user) in zip(formset, receivers):
                 form.user = user
             return formset
@@ -52,14 +53,16 @@ class WizardBillView(SessionWizardView):
 
         for form in form_dict['1']:
             atom_model = form.save(commit=False)
+            atom_model.amount = -atom_model.amount
             atom_model.child_of_bill = bill_model
             atom_model.save()
+        Atom.objects.create(amount=bill_model.amount, user=form_dict['0'].cleaned_data['buyer'], child_of_bill=bill_model)
+
         bill_model.update_amount()
         try:
             bill_model.save()
         except ValidationError:
             bill_model.delete()
-
         return redirect('home')
 
 
