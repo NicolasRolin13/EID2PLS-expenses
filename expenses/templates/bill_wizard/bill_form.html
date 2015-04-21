@@ -1,0 +1,30 @@
+{% extends "bill_wizard/base.html" %}
+
+{% block form_content %}
+    <div class="row">
+        <div class="four columns">
+         {{ form.title.label_tag}}
+         {{ form.title }}
+        </div>
+        <div class="four columns">
+         {{ form.amount.label_tag}}
+         {{ form.amount }}
+        </div>
+        <div class="four columns">
+         {{ form.category.label_tag }}
+         {{ form.category }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+         {{ form.buyer.label_tag}}
+         {{ form.buyer }}
+        </div>
+        <div class="six columns">
+         {{ form.receivers.label_tag}}
+         {{ form.receivers }}
+        </div>
+    </div>
+         {{ form.description.label_tag}}
+         {{ form.description }}
+{% endblock %}

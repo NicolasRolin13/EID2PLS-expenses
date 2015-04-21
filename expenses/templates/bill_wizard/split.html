@@ -1,0 +1,10 @@
+{% extends "bill_wizard/base.html" %}
+
+{% block form_content %}
+{{ form.management_form }}
+
+{% for sub_form in form.forms %}
+    Amount for {{ sub_form.user }}: {{ sub_form.amount }}
+{% endfor %}
+
+{% endblock %}

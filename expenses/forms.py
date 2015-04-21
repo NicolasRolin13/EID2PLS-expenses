@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from expenses.models import Bill, ExtendedUser
+from expenses.models import Atom, Bill, ExtendedUser
 
 from django.contrib.auth.forms import UserCreationForm
 
@@ -30,6 +30,26 @@ class BillForm(forms.ModelForm):
         self.fields['buyer'].widget.attrs['class'] = 'u-full-width'
         self.fields['receivers'].widget.attrs['class'] = 'u-full-width'
 
+
+class CustomSplitForm(forms.ModelForm):
+    class Meta:
+        model = Atom
+        fields = ('amount', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = None
+
+    def save(self, commit=True, *args, **kwargs):
+        if commit == False:
+            model = super().save(commit=False, *args, **kwargs)
+            model.user = self.user
+            return model
+        else:
+            super().save(commit=True, *args, **kwargs)
+
+class EmptyForm(forms.Form):
+    pass
 
 class RepaymentForm(forms.ModelForm):
     """

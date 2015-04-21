@@ -6,13 +6,62 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
 from django.views.generic.edit import FormView
+from django.contrib.formtools.wizard.views import SessionWizardView
+from django.forms.models import formset_factory
 
-from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm
+from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, CustomSplitForm
 from expenses.models import Atom, Bill, ExtendedUser
 
 
 # Bill related
 ###################
+
+class WizardBillView(SessionWizardView):
+    TEMPLATES = {'0': 'bill_wizard/bill_form.html',
+        '1': 'bill_wizard/split.html',
+        '2': 'bill_wizard/bill_form.html'}
+
+    def get_template_names(self):
+        return self.TEMPLATES[self.steps.current]
+
+    def get_form(self, step=None, data=None, files=None):
+        base_form = super().get_form(step, data, files)
+        if step is None:
+            step = self.steps.current
+
+        if step != '0':
+            base_data = self.get_cleaned_data_for_step('0')
+            receivers = base_data['receivers']
+
+        if step == '1':
+            num = len(receivers)
+            BillFormset = formset_factory(CustomSplitForm, max_num=num, min_num=num, validate_max=True, validate_min=True)
+            formset = BillFormset(data)
+            for (form, user) in zip(formset, receivers):
+                form.user = user
+            return formset
+
+        else:
+            return base_form
+
+    def done(self, form_list, form_dict, **kwargs):
+        bill_model = form_dict['0'].save(commit=False)
+        bill_model.creator = self.request.user.extendeduser
+
+        bill_model.unsafe_save()
+
+        for form in form_dict['1']:
+            atom_model = form.save(commit=False)
+            atom_model.child_of_bill = bill_model
+            atom_model.save()
+        bill_model.update_amount()
+        try:
+            bill_model.save()
+        except ValidationError:
+            bill_model.delete()
+
+        return redirect('home')
+
 
 class NormalBillView(FormView):
     template_name = 'basic_form.html'
