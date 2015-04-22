@@ -7,8 +7,7 @@ from expenses.forms import BillForm, CustomSplitForm, EmptyForm
 
 urlpatterns = [
     url(r'^$', views.view_root),
-    url(r'^bill/create/?$', views.NormalBillView.as_view(), name='normal_bill_form'),
-    url(r'^wizard/?$', views.WizardBillView.as_view([BillForm, CustomSplitForm, EmptyForm]), name='wizard_bill'),
+    url(r'^bill/create/?$', views.WizardBillView.as_view([BillForm, CustomSplitForm, EmptyForm]), name='wizard_bill_form'),
     url(r'^bill/view/(?P<bill_id>\d+)/?$', views.display_bill, name='display_bill'),
     url(r'^bill/repayment/?$', views.RepaymentView.as_view(), name='repayment_form'),
     url(r'^accounts/create/?$', views.UserCreateView.as_view(), name='user_create'),
