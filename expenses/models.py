@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 import decimal
+from decimal import Decimal
 
 
 class Atom(models.Model):
@@ -83,12 +84,24 @@ class Bill(models.Model):
         """
         self.amount = self.calculate_positive_amount()
 
+    def equal_split(self, receivers):
+            decimal.getcontext().rounding = decimal.ROUND_DOWN
+            receivers = receivers.order_by('?')
+            nb_of_receivers = len(receivers)
+            missing_cents = self.amount*100 % nb_of_receivers
+            amount_list = []
+            for i, receiver in enumerate(receivers):
+                if i < missing_cents:
+                    amount_list.append((receiver , ((-self.amount/nb_of_receivers) - Decimal(0.01)).quantize(Decimal('.01'))))
+                else:
+                    amount_list.append((receiver, (-self.amount/nb_of_receivers).quantize(Decimal('.01'))))
+            return amount_list
+
     def create_atoms(self, buyer, receivers, is_repayment=False):
         """
         Creates the list of atoms from one ```buyer``` to ```receivers``` by equal split method.
         If the amount is not a number of ```receivers``` multiple, gives the remaining cents to random ```receivers```.
         """
-        decimal.getcontext().rounding = decimal.ROUND_DOWN
         if is_repayment:
             receiver_atom = Atom()
             receiver_atom.user = receivers
@@ -96,15 +109,9 @@ class Bill(models.Model):
             receiver_atom.child_of_bill = self
             receiver_atom.save()
         else:
-            receivers = receivers.order_by('?')
-            nb_of_receivers = len(receivers)
-            missing_cents = self.amount*100 % nb_of_receivers
-            for i, receiver in enumerate(receivers):
+            for receiver, amount in amount_list:
                 receiver_atom = Atom()
-                if i < missing_cents:
-                    receiver_atom.amount = (-self.amount/nb_of_receivers) - decimal.Decimal(0.01)
-                else:
-                    receiver_atom.amount = -self.amount/nb_of_receivers
+                receiver_atom.amount = amount
                 receiver_atom.user = receiver
                 receiver_atom.child_of_bill = self
                 receiver_atom.save()

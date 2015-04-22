@@ -37,7 +37,9 @@ class WizardBillView(SessionWizardView):
         if step == '1':
             num = len(receivers)
             BillFormset = formset_factory(CustomSplitForm, formset=CustomSplitFormSet, max_num=num, min_num=num, validate_max=True, validate_min=True)
-            formset = BillFormset(total_amount, data)
+            receivers, splitted_amount = zip(*Bill(amount=total_amount).equal_split(receivers))
+            initial = [{'amount': -amount} for amount in splitted_amount]
+            formset = BillFormset(total_amount, data, initial=initial)
             for (form, user) in zip(formset, receivers):
                 form.user = user
             self.atom_forms = [form for form in formset]
