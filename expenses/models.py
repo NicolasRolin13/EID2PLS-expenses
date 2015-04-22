@@ -36,17 +36,12 @@ class Bill(models.Model):
     def __str__(self):
         return "%s - %s (%s€)" % (self.date.strftime('%c'), self.title, self.amount)
 
-    def save(self, *args, **kwargs):
-        if not self.check_integrity():
-            raise ValidationError("Current amount doesn't match the sum of atoms amounts")
-        super().save(*args, **kwargs)
-
-    def unsafe_save(self, *args, **kwargs):  # TODO: Remove this kludge
-        """
-        Registers the current ```Bill``` instance to SQL database without integrity check.
-        Used for bootstrapping the registration of atoms.
-        """
-        super().save(*args, **kwargs)
+    def clean(self, *args, **kwargs):
+        try:
+            self.check_integrity()
+        except ValidationError:
+            if self.atoms.all():
+                raise
 
     def check_integrity(self):
         """
@@ -149,6 +144,13 @@ class Bill(models.Model):
         Returns the list of user involved in the current ```Bill``` instance.
         """
         return list(set(self.list_of_buyers() + self.list_of_receivers()))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if (not exc_type and not self.atoms.all()) or (exc_type == ValidationError):
+            self.delete()
 
 
 class ExtendedUser(models.Model):

@@ -58,23 +58,20 @@ class WizardBillView(SessionWizardView):
         return context
 
     def done(self, form_list, form_dict, **kwargs):
-        bill_model = form_dict['0'].save(commit=False)
-        bill_model.creator = self.request.user.extendeduser
+        with form_dict['0'].save(commit=False) as bill_model:
+            bill_model.creator = self.request.user.extendeduser
 
-        bill_model.unsafe_save()
+            bill_model.save() #Register the object to the database
 
-        for form in form_dict['1']:
-            atom_model = form.save(commit=False)
-            atom_model.amount = -atom_model.amount
-            atom_model.child_of_bill = bill_model
-            atom_model.save()
-        Atom.objects.create(amount=bill_model.amount, user=form_dict['0'].cleaned_data['buyer'], child_of_bill=bill_model)
+            for form in form_dict['1']:
+                atom_model = form.save(commit=False)
+                atom_model.amount = -atom_model.amount
+                atom_model.child_of_bill = bill_model
+                atom_model.save()
+            Atom.objects.create(amount=bill_model.amount, user=form_dict['0'].cleaned_data['buyer'], child_of_bill=bill_model)
 
-        bill_model.update_amount()
-        try:
+            bill_model.update_amount()
             bill_model.save()
-        except ValidationError:
-            bill_model.delete()
         return redirect('home')
 
 
@@ -84,17 +81,14 @@ class NormalBillView(FormView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        bill_model = form.save(commit=False)
-        bill_model.creator = self.request.user.extendeduser
-        cleaned_form = form.cleaned_data
+        with form.save(commit=False) as bill_model:
+            bill_model.creator = self.request.user.extendeduser
+            cleaned_form = form.cleaned_data
 
-        bill_model.unsafe_save()
-        bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['receivers'])
-        bill_model.update_amount()
-        try:
             bill_model.save()
-        except ValidationError:
-            bill_model.delete()
+            bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['receivers'])
+            bill_model.update_amount()
+            bill_model.save()
         return super().form_valid(form)
 
     @method_decorator(login_required)
@@ -117,19 +111,16 @@ class RepaymentView(FormView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        repayment_model = form.save(commit=False)
-        repayment_model.repayment = True
-        repayment_model.creator = self.request.user.extendeduser
-        repayment_model.title = repayment_model.repayment_name()
-        cleaned_form = form.cleaned_data
+        with form.save(commit=False) as repayment_model:
+            repayment_model.repayment = True
+            repayment_model.creator = self.request.user.extendeduser
+            repayment_model.title = repayment_model.repayment_name()
+            cleaned_form = form.cleaned_data
 
-        repayment_model.unsafe_save()
-        repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'], True)
-        repayment_model.update_amount()
-        try:
             repayment_model.save()
-        except ValidationError:
-            repayment_model.delete()
+            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'], True)
+            repayment_model.update_amount()
+            repayment_model.save()
         return super().form_valid(form)
 
     @method_decorator(login_required)
