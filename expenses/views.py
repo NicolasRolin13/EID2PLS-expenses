@@ -153,7 +153,7 @@ def view_root(request):
         return render(request, 'root.html')
 
 @login_required
-def view_history(request):
+def view_account_history(request):
     """
     Returns a presentation of the last 20 operations as a buyer and as a receiver.
     """
@@ -163,7 +163,7 @@ def view_history(request):
 
     buyers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in buyers_atoms]
     receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_atoms]
-    return render(request, 'history.html', {'buyers': buyers_table, 'receivers': receivers_table})
+    return render(request, 'account_history.html', {'buyers': buyers_table, 'receivers': receivers_table})
 
 
 @login_required

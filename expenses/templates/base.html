@@ -13,10 +13,8 @@
                 <ul>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><ul>
-                        <li><a href="{% url 'wizard_bill_form' %}">Create</a></li>
-                        <li><a href="{% url 'repayment_form' %}">Repayment</a></li>
-                    </ul></li>
+                    <li><a href="{% url 'wizard_bill_form' %}">Bill</a></li>
+                    <li><a href="{% url 'repayment_form' %}">Repayment</a></li>
                     <li><a href="{% url 'balances' %}">Accounts</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% endif %}
@@ -26,5 +24,8 @@
     <div class="container">
     {% block main_content %}{% endblock %}
     </div>
+    <footer>
+        <span class="expenses">Expenses</span> version draft-0.0
+    <footer>
     </body>
 </html>

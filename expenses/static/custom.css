@@ -7,6 +7,16 @@ body {
     font-family: "Linux Libertine O", Palatino, serif;
 }
 
+.expenses {
+    font-family: "Droid Serif";
+    font-style: italic;
+}
+
+footer {
+    text-align: right;
+    color: #bbb;
+}
+
 select {
     height: 100%;
 }

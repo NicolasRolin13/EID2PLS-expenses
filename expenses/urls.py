@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^accounts/create/?$', views.UserCreateView.as_view(), name='user_create'),
     url(r'^accounts/login/?$', 'django.contrib.auth.views.login', name='login'),
     url(r'^accounts/logout/?$', 'django.contrib.auth.views.logout', name='logout'),
-    url(r'^accounts/history/?$', views.view_history),
+    url(r'^accounts/history/?$', views.view_account_history, name='account_history'),
     url(r'^whatsnew/?$', views.whats_new),
     url(r'^home/?$', views.view_home, name='home'),
     url(r'^balances/?$', views.view_balances, name='balances'),

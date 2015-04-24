@@ -4,14 +4,22 @@
 {% endblock %}
 {% block main_content %}
 
-<h1>Welcome on expenses.</h1>
+<h1>Welcome on <span class="expenses">Expenses</span>.</h1>
+
+<p id="welcome-message">
+    <span class="expenses">Expenses</span> is a simple web application that allows you to manage your expenses between friends.
+</p>
+
+<p id="continue-message">
+    Please log in or sign up to continue.
+</p>
 
 <div class="row">
     <div class="six columns">
         <a href="{% url 'login' %}?next={% url 'home' %}"><button>Log in</button></a>
     </div>
     <div class="six columns">
-        <a href="{% url 'user_create' %}"><button>Sign in</button></a>
+        <a href="{% url 'user_create' %}"><button>Sign up</button></a>
     </div>
 </div>
 {% endblock %}
