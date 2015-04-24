@@ -1,30 +1,37 @@
 {% extends "bill_wizard/base.html" %}
 
 {% block form_content %}
+    {{ form.non_field_errors }}
     <div class="row">
-        <div class="four columns">
+        <div class="four columns{% if form.title.errors %} error{% endif %}">
          {{ form.title.label_tag}}
          {{ form.title }}
+         {{ form.title.errors }}
         </div>
-        <div class="four columns">
+        <div class="four columns{% if form.amount.errors %} error{% endif %}">
          {{ form.amount.label_tag}}
          {{ form.amount }}
+         {{ form.amount.errors }}
         </div>
-        <div class="four columns">
+        <div class="four columns{% if form.category.errors %} error{% endif %}">
          {{ form.category.label_tag }}
          {{ form.category }}
+         {{ form.category.errors }}
         </div>
     </div>
     <div class="row">
-        <div class="six columns">
+        <div class="six columns{% if form.buyer.errors %} error{% endif %}">
          {{ form.buyer.label_tag}}
          {{ form.buyer }}
+         {{ form.buyer.errors }}
         </div>
-        <div class="six columns">
+        <div class="six columns{% if form.participants.errors %} error{% endif %}">
          {{ form.participants.label_tag}}
          {{ form.participants }}
+         {{ form.participants.errors }}
         </div>
     </div>
          {{ form.description.label_tag}}
          {{ form.description }}
+         {{ form.description.errors }}
 {% endblock %}

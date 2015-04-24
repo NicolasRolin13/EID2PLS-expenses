@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block main_content %}
-<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+<p>Bill creation: step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
 <form action="" method="post">{% csrf_token %}
 {{ wizard.management_form }}
     {% block form_content %}
@@ -13,7 +13,7 @@
 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">First</button>
 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Previous</button>
 {% endif %}
-<input type="submit" value="Submit"/>
+<input class="button-primary" type="submit" value="Submit"/>
 </form>
 
 {% endblock %}

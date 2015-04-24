@@ -94,3 +94,11 @@ table tbody tr:hover{
 table caption {
     font-size: 3.5rem;
 }
+
+.errorlist {
+    color: #f00;
+}
+
+.error input {
+    border-color: #f00;
+}

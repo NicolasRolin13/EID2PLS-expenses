@@ -8,14 +8,17 @@
         <div class="four columns">
          {{ form.amount.label_tag}}
          {{ form.amount }}
+         {{ form.amount.error }}
         </div>
         <div class="four columns">
          {{ form.buyer.label_tag}}
          {{ form.buyer }}
+         {{ form.buyer.error }}
         </div>
         <div class="four columns">
          {{ form.participant.label_tag}}
          {{ form.participant }}
+         {{ form.participant.error }}
         </div>
     </div>
     {% csrf_token %}

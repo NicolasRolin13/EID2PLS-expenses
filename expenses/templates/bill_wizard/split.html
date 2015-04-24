@@ -3,8 +3,15 @@
 {% block form_content %}
 {{ form.management_form }}
 
+{{ form.non_field_errors }}
+
+<div class="row">
 {% for sub_form in form.forms %}
-    Amount for {{ sub_form.user }}: {{ sub_form.amount }}
+    <div class="offset-by-one-third columns">
+        <label>Amount for {{ sub_form.user }}:</label>
+        {{ sub_form.amount }}
+    </div>
 {% endfor %}
+</div>
 
 {% endblock %}
