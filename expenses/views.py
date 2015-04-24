@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -197,3 +197,19 @@ def view_balances(request):
     """
     users = ExtendedUser.objects.all()
     return render(request, 'balances.html', {'users': users})
+
+@login_required
+def view_history(request, history_id):
+    history_id = int(history_id)
+    queryset = Bill.objects.all().order_by('id')[history_id*10:(history_id + 1)*10]
+    bills = get_list_or_404(queryset)
+    if history_id == 0:
+        has_previous = False
+    else:
+        has_previous = True
+    if len(queryset) < 10:
+        has_next = False
+    else:
+        has_next = True
+    params = {'bills': bills, 'has_previous': has_previous, 'has_next': has_next, 'id': history_id}
+    return render(request, 'history.html', params)

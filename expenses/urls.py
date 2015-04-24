@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^whatsnew/?$', views.whats_new),
     url(r'^home/?$', views.view_home, name='home'),
     url(r'^balances/?$', views.view_balances, name='balances'),
+    url(r'^history/(?P<history_id>\d+)/?$', views.view_history, name='history'),
     ]
