@@ -84,37 +84,37 @@ class Bill(models.Model):
         """
         self.amount = self.calculate_positive_amount()
 
-    def equal_split(self, receivers):
+    def equal_split(self, participants):
             decimal.getcontext().rounding = decimal.ROUND_DOWN
-            receivers = receivers.order_by('?')
-            nb_of_receivers = len(receivers)
-            missing_cents = self.amount*100 % nb_of_receivers
+            participants = participants.order_by('?')
+            nb_of_participants = len(participants)
+            missing_cents = self.amount*100 % nb_of_participants
             amount_list = []
-            for i, receiver in enumerate(receivers):
+            for i, participant in enumerate(participants):
                 if i < missing_cents:
-                    amount_list.append((receiver , ((-self.amount/nb_of_receivers) - Decimal(0.01)).quantize(Decimal('.01'))))
+                    amount_list.append((participant , ((-self.amount/nb_of_participants) - Decimal(0.01)).quantize(Decimal('.01'))))
                 else:
-                    amount_list.append((receiver, (-self.amount/nb_of_receivers).quantize(Decimal('.01'))))
+                    amount_list.append((participant, (-self.amount/nb_of_participants).quantize(Decimal('.01'))))
             return amount_list
 
-    def create_atoms(self, buyer, receivers, is_repayment=False):
+    def create_atoms(self, buyer, participants, is_repayment=False):
         """
-        Creates the list of atoms from one ```buyer``` to ```receivers``` by equal split method.
-        If the amount is not a number of ```receivers``` multiple, gives the remaining cents to random ```receivers```.
+        Creates the list of atoms from one ```buyer``` to ```participants``` by equal split method.
+        If the amount is not a number of ```participants``` multiple, gives the remaining cents to random ```participants```.
         """
         if is_repayment:
-            receiver_atom = Atom()
-            receiver_atom.user = receivers
-            receiver_atom.amount = -self.amount
-            receiver_atom.child_of_bill = self
-            receiver_atom.save()
+            participant_atom = Atom()
+            participant_atom.user = participants
+            participant_atom.amount = -self.amount
+            participant_atom.child_of_bill = self
+            participant_atom.save()
         else:
-            for receiver, amount in amount_list:
-                receiver_atom = Atom()
-                receiver_atom.amount = amount
-                receiver_atom.user = receiver
-                receiver_atom.child_of_bill = self
-                receiver_atom.save()
+            for participant, amount in amount_list:
+                participant_atom = Atom()
+                participant_atom.amount = amount
+                participant_atom.user = participant
+                participant_atom.child_of_bill = self
+                participant_atom.save()
 
         buyer_atom = Atom()
         buyer_atom.amount = self.amount
@@ -140,9 +140,9 @@ class Bill(models.Model):
         """
         return [atom.user for atom in self.list_of_positive_atoms()]
 
-    def list_of_receivers(self):
+    def list_of_participants(self):
         """
-        Returns the list of receivers for the current ```Bill``` instance.
+        Returns the list of participants for the current ```Bill``` instance.
         """
         return [atom.user for atom in self.list_of_negative_atoms()]
 
@@ -150,7 +150,7 @@ class Bill(models.Model):
         """
         Returns the list of user involved in the current ```Bill``` instance.
         """
-        return list(set(self.list_of_buyers() + self.list_of_receivers()))
+        return list(set(self.list_of_buyers() + self.list_of_participants()))
 
     def __enter__(self):
         return self

@@ -9,11 +9,11 @@
         <th>Amount</th>
         <th>Date</th>
     </tr>
-    {% for receiver in receivers %}
+    {% for participant in participants %}
     <tr>
-        <td>{{ receiver.0 }}</td>
-        <td>{{ receiver.1 }}</td>
-        <td>{{ receiver.2 }}</td>
+        <td>{{ participant.0 }}</td>
+        <td>{{ participant.1 }}</td>
+        <td>{{ participant.2 }}</td>
     </tr>
     {% endfor %}
 </table>

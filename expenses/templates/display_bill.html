@@ -24,8 +24,8 @@
     </div>
     <div class="four columns">
         <ul>
-        {% for receiver_atom in bill.list_of_negative_atoms %}
-        <li>{{ receiver_atom.user }} ({{ receiver_atom.localised_amount }})</li>
+        {% for participant_atom in bill.list_of_negative_atoms %}
+        <li>{{ participant_atom.user }} ({{ participant_atom.localised_amount }})</li>
         {% endfor %}
 </ul>
     </div>

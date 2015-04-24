@@ -31,16 +31,16 @@ class WizardBillView(SessionWizardView):
 
         if step != '0':
             self.base_data = self.get_cleaned_data_for_step('0')
-            receivers = self.base_data['receivers']
+            participants = self.base_data['participants']
             total_amount = self.base_data['amount']
 
         if step == '1':
-            num = len(receivers)
+            num = len(participants)
             BillFormset = formset_factory(CustomSplitForm, formset=CustomSplitFormSet, max_num=num, min_num=num, validate_max=True, validate_min=True)
-            receivers, splitted_amount = zip(*Bill(amount=total_amount).equal_split(receivers))
+            participants, splitted_amount = zip(*Bill(amount=total_amount).equal_split(participants))
             initial = [{'amount': -amount} for amount in splitted_amount]
             formset = BillFormset(total_amount, data, initial=initial)
-            for (form, user) in zip(formset, receivers):
+            for (form, user) in zip(formset, participants):
                 form.user = user
             self.atom_forms = [form for form in formset]
             return formset
@@ -88,7 +88,7 @@ class NormalBillView(FormView):
             cleaned_form = form.cleaned_data
 
             bill_model.save()
-            bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['receivers'])
+            bill_model.create_atoms(cleaned_form['buyer'], cleaned_form['participants'])
             bill_model.update_amount()
             bill_model.save()
         return super().form_valid(form)
@@ -120,7 +120,7 @@ class RepaymentView(FormView):
             cleaned_form = form.cleaned_data
 
             repayment_model.save()
-            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['receiver'], True)
+            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['participant'], True)
             repayment_model.update_amount()
             repayment_model.save()
         return super().form_valid(form)
@@ -155,15 +155,15 @@ def view_root(request):
 @login_required
 def view_account_history(request):
     """
-    Returns a presentation of the last 20 operations as a buyer and as a receiver.
+    Returns a presentation of the last 20 operations as a buyer and as a participant.
     """
     user = request.user.extendeduser
     buyers_atoms = Atom.objects.filter(user=user).filter(amount__gt=0).order_by('-id')[:20]
-    receivers_atoms = Atom.objects.filter(user=user).filter(amount__lt=0).order_by('-id')[:20]
+    participants_atoms = Atom.objects.filter(user=user).filter(amount__lt=0).order_by('-id')[:20]
 
     buyers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in buyers_atoms]
-    receivers_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in receivers_atoms]
-    return render(request, 'account_history.html', {'buyers': buyers_table, 'receivers': receivers_table})
+    participants_table = [(elmt.child_of_bill.title, elmt.amount, elmt.date) for elmt in participants_atoms]
+    return render(request, 'account_history.html', {'buyers': buyers_table, 'participants': participants_table})
 
 
 @login_required

@@ -12,7 +12,7 @@ class BillForm(forms.ModelForm):
     Form for non-repayment ```Bill```.
     """
     buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
-    receivers = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
+    participants = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
 
     error_css_class = 'error'
     required_css_class = 'required'
@@ -28,7 +28,7 @@ class BillForm(forms.ModelForm):
         self.fields['title'].widget.attrs['class'] = 'u-full-width'
         self.fields['description'].widget.attrs['class'] = 'u-full-width'
         self.fields['buyer'].widget.attrs['class'] = 'u-full-width'
-        self.fields['receivers'].widget.attrs['class'] = 'u-full-width'
+        self.fields['participants'].widget.attrs['class'] = 'u-full-width'
 
 
 class CustomSplitForm(forms.ModelForm):
@@ -70,7 +70,7 @@ class RepaymentForm(forms.ModelForm):
     Form for repayment ```Bill```.
     """
     buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
-    receiver = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
+    participant = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
 
     error_css_class = 'error'
     required_css_class = 'required'
@@ -83,7 +83,7 @@ class RepaymentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['amount'].widget.attrs['class'] = 'u-full-width'
         self.fields['buyer'].widget.attrs['class'] = 'u-full-width'
-        self.fields['receiver'].widget.attrs['class'] = 'u-full-width'
+        self.fields['participant'].widget.attrs['class'] = 'u-full-width'
 
 
 class ExtendedUserCreationForm(UserCreationForm):
