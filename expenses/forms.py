@@ -70,8 +70,8 @@ class RepaymentForm(forms.ModelForm):
     """
     Form for repayment ```Bill```.
     """
-    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
-    participant = forms.ModelChoiceField(queryset=ExtendedUser.objects.all())
+    buyer = forms.ModelChoiceField(label='From', queryset=ExtendedUser.objects.all(), empty_label=None)
+    participant = forms.ModelChoiceField(label='To', queryset=ExtendedUser.objects.all())
 
     error_css_class = 'error'
     required_css_class = 'required'

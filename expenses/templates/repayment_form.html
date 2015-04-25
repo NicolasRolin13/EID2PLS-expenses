@@ -4,21 +4,24 @@
 {% endblock %}
 {% block main_content %}
 <form action="" method="post">
+    <div class="error-container">
+        {{ form.non_field_errors }}
+    </div>
     <div class="row">
-        <div class="four columns">
+        <div class="four columns{% if form.amount.errors %} error{% endif %}">
          {{ form.amount.label_tag}}
          {{ form.amount }}
-         {{ form.amount.error }}
+         {{ form.amount.errors }}
         </div>
-        <div class="four columns">
+        <div class="four columns{% if form.amount.errors %} error{% endif %}">
          {{ form.buyer.label_tag}}
          {{ form.buyer }}
-         {{ form.buyer.error }}
+         {{ form.buyer.errors }}
         </div>
-        <div class="four columns">
+        <div class="four columns{% if form.amount.errors %} error{% endif %}">
          {{ form.participant.label_tag}}
          {{ form.participant }}
-         {{ form.participant.error }}
+         {{ form.participant.errors }}
         </div>
     </div>
     {% csrf_token %}

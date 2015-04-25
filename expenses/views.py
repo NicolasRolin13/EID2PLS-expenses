@@ -131,6 +131,11 @@ class RepaymentView(FormView):
             repayment_model.save()
         return super().form_valid(form)
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial.update({'buyer': self.request.user.extendeduser})
+        return initial
+
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
