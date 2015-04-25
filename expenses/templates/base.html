@@ -13,8 +13,14 @@
                 <ul>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'wizard_bill_form' %}">Bill</a></li>
-                    <li><a href="{% url 'repayment_form' %}">Repayment</a></li>
+                    <li>
+                        <input type="checkbox" id="Bill"/>
+                        <label for="Bill"><a>Bill</a></label>
+                        <ul>
+                            <li><a href="{% url 'wizard_bill_form' %}">Create</a></li>
+                            <li><a href="{% url 'repayment_form' %}">Repayment</a></li>
+                        </ul>
+                    </li>
                     <li><a href="{% url 'balances' %}">Accounts</a></li>
                     <li><a href="{% url 'history' 0 %}">History</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>

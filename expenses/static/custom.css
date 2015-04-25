@@ -34,47 +34,68 @@ nav {
     width:100%;
     text-align: justify;
 }
+
 nav ul {
     margin: 0 auto;
-    max-width: 1360px;
-    border-style: solid;
+    list-style: none;
     border-width: 0px;
-    border-bottom-width: 1px;
     border-color: #bbb;
+    border-style: solid;
 }
 
-nav ul li {
-    display: inline;
+nav > ul {
+    max-width: 1360px;
+    border-bottom-width: 1px;
+}
+
+nav ul > li {
     margin: 10px;
 }
 
-nav ul ul {
-    font-size: 100%;
-    display: inline-flex;
-    border-style: none;
+nav > ul > li {
+    display: inline-block;
+    position: relative;
 }
 
-nav ul ul li{
+nav > ul input[type=checkbox] {
     display: none;
+}
+
+nav input[type=checkbox] + label::after {
+    content: " +";
+    font-size: 2.5rem;
+}
+
+nav > ul ul {
+    position: absolute;
+    top: 100%;
+    left: 0px;
+    z-index: -1;
     visibility: hidden;
-    transition: visibility 2s;
+    background: #fff;
+    border: 1px solid #bbb;
+    border-radius: 4px;
 }
 
-nav ul ul li:first-child {
-    display: inline;
+nav > ul > li:hover ul, nav input:checked + label + ul {
+    z-index: 1;
     visibility: visible;
 }
 
-nav ul ul:hover li {
-    display: inline;
-    visibility: visible;
-    transition: visibility 2s;
+nav input:checked + label + ul {
+    border-color: #888;
+}
+
+nav input:checked + label::after {
+    content: " –";
+    font-size: 2.5rem;
 }
 
 nav a {
     display: inline-block;
     text-decoration: none;
     font-weight: bold;
+    font-size: 2.5rem;
 }
 
 nav a:hover {
