@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 
 import decimal
 from decimal import Decimal
+from random import shuffle
 
 
 class Atom(models.Model):
@@ -86,16 +87,13 @@ class Bill(models.Model):
 
     def equal_split(self, participants):
             decimal.getcontext().rounding = decimal.ROUND_DOWN
-            participants = participants.order_by('?')
             nb_of_participants = len(participants)
-            missing_cents = self.amount*100 % nb_of_participants
-            amount_list = []
-            for i, participant in enumerate(participants):
-                if i < missing_cents:
-                    amount_list.append((participant , ((-self.amount/nb_of_participants) - Decimal(0.01)).quantize(Decimal('.01'))))
-                else:
-                    amount_list.append((participant, (-self.amount/nb_of_participants).quantize(Decimal('.01'))))
-            return amount_list
+            missing_cents = int(self.amount*100 % nb_of_participants)
+            base_amount = (-self.amount/nb_of_participants).quantize(Decimal('.01'))
+            amount_list = [base_amount - Decimal(0.01)]*missing_cents
+            amount_list += [base_amount]*(nb_of_participants - missing_cents)
+            shuffle(amount_list)
+            return zip(participants, amount_list)
 
     def create_atoms(self, buyer, participants, is_repayment=False):
         """
