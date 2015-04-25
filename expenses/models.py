@@ -90,7 +90,7 @@ class Bill(models.Model):
             nb_of_participants = len(participants)
             missing_cents = int(self.amount*100 % nb_of_participants)
             base_amount = (-self.amount/nb_of_participants).quantize(Decimal('.01'))
-            amount_list = [base_amount - Decimal(0.01)]*missing_cents
+            amount_list = [base_amount - Decimal('0.01')]*missing_cents
             amount_list += [base_amount]*(nb_of_participants - missing_cents)
             shuffle(amount_list)
             return zip(participants, amount_list)
