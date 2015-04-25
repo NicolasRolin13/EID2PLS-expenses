@@ -2,25 +2,23 @@
 {% block main_content %}
 <center>
 <h2>Please log in.</h2>
-<form class="ym-form ym-columnar" action="{% url 'login' %}" method="post" style="width: 600px">{% csrf_token %}
-    <div class="ym-fbox {% if error == 1 %}ym-error{% endif %}">
-    {% if error == 1 %}
-        <p class="ym-message">Error: Incorrect login or password</p>
-    {% endif %}
+<form action="" method="post">{% csrf_token %}
+    <div class="row">
+        {{ form.non_field_errors}}
 
-        <div class="ym-fbox ym-fbox-text">
-        <label for="username">Username</label>
-        <input id="username" type="text" name="username" autofocus>
+        <div>
+        {{ form.username.label_tag }}
+        {{ form.username }}
         </div>
 
-        <div class="ym-fbox ym-fbox-text">
-        <label for"password">Password</label>
-        <input id="password" type="password" name="password">
+        <div>
+        {{ form.password.label_tag }}
+        {{ form.password }}
         </div>
     </div>
 
-    <div class="ym-fbox-footer ym-fbox-button">
-        <input type="submit" class="ym-button ym-primary" id="submit" value="Log in">
+    <div>
+        <input type="submit" class="button-primary" value="Log in">
         <input type="hidden" name="next" value="{{ next }}" />
     </div>
 </form>
