@@ -2,8 +2,9 @@
 
 {% block form_content %}
 {{ form.management_form }}
-
-{{ form.non_form_errors }}
+<div class="error-container">
+    {{ form.non_form_errors }}
+</div>
 
 <h2>Choose your split for {{ total_amount }}</h2>
 <div class="row">
