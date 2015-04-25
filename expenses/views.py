@@ -32,14 +32,14 @@ class WizardBillView(SessionWizardView):
         if step != '0':
             self.base_data = self.get_cleaned_data_for_step('0')
             participants = self.base_data['participants']
-            total_amount = self.base_data['amount']
+            self.total_amount = self.base_data['amount']
 
         if step == '1':
             num = len(participants)
             BillFormset = formset_factory(CustomSplitForm, formset=CustomSplitFormSet, max_num=num, min_num=num, validate_max=True, validate_min=True)
-            participants, splitted_amount = zip(*Bill(amount=total_amount).equal_split(participants))
+            participants, splitted_amount = zip(*Bill(amount=self.total_amount).equal_split(participants))
             initial = [{'amount': -amount} for amount in splitted_amount]
-            formset = BillFormset(total_amount, data, initial=initial)
+            formset = BillFormset(self.total_amount, data, initial=initial)
             for (form, user) in zip(formset, participants):
                 form.user = user
             self.atom_forms = [form for form in formset]
@@ -50,6 +50,9 @@ class WizardBillView(SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+
+        if self.steps.current == '1':
+            context.update({'total_amount': self.total_amount})
 
         if self.steps.current == '2':
             buyer = {'user': self.base_data['buyer'], 'amount': self.base_data['amount']}

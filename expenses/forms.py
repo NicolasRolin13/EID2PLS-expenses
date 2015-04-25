@@ -54,7 +54,8 @@ class CustomSplitFormSet(forms.formsets.BaseFormSet):
         super().clean(*args, **kwargs)
         total_amount = sum([form.cleaned_data['amount'] for form in self.forms])
         if self.total_amount != total_amount:
-            raise forms.ValidationError("Sum of amount doesn't match the bill amount" )
+            validation_message = "Sum of user amounts (%s) doesn't match the bill amount (%s)" % (total_amount, self.total_amount)
+            raise forms.ValidationError(validation_message)
 
     def __init__(self, total_amount, *args, **kwargs):
         super().__init__(*args, **kwargs)
