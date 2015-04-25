@@ -33,6 +33,9 @@ class WizardBillView(SessionWizardView):
             self.base_data = self.get_cleaned_data_for_step('0')
             participants = self.base_data['participants']
             self.total_amount = self.base_data['amount']
+        else:
+            initial = {'buyer': self.request.user.extendeduser}
+            base_form.initial = initial
 
         if step == '1':
             num = len(participants)
