@@ -5,12 +5,12 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.contrib.formtools.wizard.views import SessionWizardView
 from django.forms.models import formset_factory
 
-from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, CustomSplitForm, CustomSplitFormSet
-from expenses.models import Atom, Bill, ExtendedUser
+from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, UserEditForm, CustomSplitForm, CustomSplitFormSet
+from expenses.models import Atom, Bill, ExtendedUser, User
 
 
 # Bill related
@@ -152,6 +152,25 @@ class UserCreateView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class UserEditView(UpdateView):
+    template_name = 'user_edit_form.html'
+    form_class = UserEditForm
+    model = User
+    success_url = reverse_lazy('home')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial.update({'nickname': self.object.extendeduser.nickname})
+        return initial
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 # Others

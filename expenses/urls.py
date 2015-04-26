@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^bill/view/(?P<bill_id>\d+)/?$', views.display_bill, name='display_bill'),
     url(r'^bill/repayment/?$', views.RepaymentView.as_view(), name='repayment_form'),
     url(r'^accounts/create/?$', views.UserCreateView.as_view(), name='user_create'),
+    url(r'^accounts/edit/?$', views.UserEditView.as_view(), name='user_edit'),
     url(r'^accounts/login/?$', 'django.contrib.auth.views.login', name='login'),
     url(r'^accounts/logout/?$', 'django.contrib.auth.views.logout', name='logout'),
     url(r'^accounts/history/?$', views.view_account_history, name='account_history'),

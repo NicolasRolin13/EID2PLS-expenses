@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block context_header %}
+{% endblock %}
+{% block main_content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="six columns">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="six columns">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+        <div class="six columns">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            {{ form.nickname.label_tag }}
+            {{ form.nickname }}
+            {{ form.nickname.errors }}
+        </div>
+    </div>
+    <input class="button-primary" type=submit value="Submit" />
+</form>
+
+{% endblock %}

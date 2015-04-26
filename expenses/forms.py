@@ -5,6 +5,7 @@ from django import forms
 from expenses.models import Atom, Bill, ExtendedUser
 
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 class BillForm(forms.ModelForm):
@@ -97,3 +98,16 @@ class ExtendedUserCreationForm(UserCreationForm):
         super().save(*args, **kwargs)
         extended_user = ExtendedUser(user=self.instance, nickname=self.cleaned_data['nickname'])
         extended_user.save()
+
+class UserEditForm(forms.ModelForm):
+    nickname = forms.CharField(max_length=50)
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email']
+
+    def save(self, *args, **kwargs):
+            model = super().save(*args, **kwargs)
+            model.extendeduser.nickname = self.cleaned_data['nickname']
+            model.extendeduser.save()
+            return model

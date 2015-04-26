@@ -37,8 +37,8 @@
         <td>{{ bill.date }}</td>
         <td><a href="{% url 'display_bill' bill.pk %}">{{ bill.title }}</a></td>
         <td>{{ bill.amount }}</td>
-        <td>{% for buyer in bill.list_of_buyers %}{{ buyer.user }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
-        <td>{% for participant in bill.list_of_participants %}{{ participant.user }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+        <td>{% for buyer in bill.list_of_buyers %}{{ buyer.nickname }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+        <td>{% for participant in bill.list_of_participants %}{{ participant.nickname }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
         <td>{{ bill.creator }}</td>
     </tr>
 {% endfor %}
