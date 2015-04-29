@@ -82,6 +82,10 @@ class WizardBillView(SessionWizardView):
             bill_model.save()
         return redirect('home')
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class NormalBillView(FormView):
     template_name = 'basic_form.html'
