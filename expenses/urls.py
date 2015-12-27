@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 
+from django.contrib.auth.views import login, logout
+
 from expenses import views
 from expenses.forms import BillForm, CustomSplitForm, EmptyForm
 
@@ -12,8 +14,8 @@ urlpatterns = [
     url(r'^bill/repayment/?$', views.RepaymentView.as_view(), name='repayment_form'),
     url(r'^accounts/create/?$', views.UserCreateView.as_view(), name='user_create'),
     url(r'^accounts/edit/?$', views.UserEditView.as_view(), name='user_edit'),
-    url(r'^accounts/login/?$', 'django.contrib.auth.views.login', name='login'),
-    url(r'^accounts/logout/?$', 'django.contrib.auth.views.logout', name='logout'),
+    url(r'^accounts/login/?$', login, name='login'),
+    url(r'^accounts/logout/?$', logout, name='logout'),
     url(r'^accounts/history/?$', views.view_account_history, name='account_history'),
     url(r'^whatsnew/?$', views.whats_new),
     url(r'^home/?$', views.view_home, name='home'),
