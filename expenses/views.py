@@ -150,7 +150,7 @@ class RepaymentView(FormView):
 
 class UserCreateView(FormView):
     template_name = 'user_create_form.html'
-    form_class = UserCreationForm
+    form_class = ExtendedUserCreationForm
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):

@@ -229,6 +229,11 @@ class ExtendedUser(models.Model):
         else:
             return NotImplemented
 
+    def save(self, *args, **kwargs):
+        if not self.nickname:
+            self.nickname = self.user.username
+        return super().save(*args, **kwargs)
+
 
 class Category(models.Model):
     """
