@@ -7,13 +7,15 @@ from expenses.models import Atom, Bill, ExtendedUser
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from django.contrib.admin.widgets import FilteredSelectMultiple
+
 
 class BillForm(forms.ModelForm):
     """
     Form for non-refund ```Bill```.
     """
     buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
-    participants = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
+    participants = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all(), widget=FilteredSelectMultiple("users", False))
 
     error_css_class = 'error'
     required_css_class = 'required'
@@ -21,6 +23,13 @@ class BillForm(forms.ModelForm):
     class Meta:
         model = Bill
         exclude = ['creator', 'date', 'refund', 'category']
+
+    class Media:
+        css = {
+            'all':['admin/css/widgets.css',]
+        }
+        # Adding this javascript is crucial
+        js = ['/admin/jsi18n/']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

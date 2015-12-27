@@ -132,3 +132,17 @@ table caption {
 label.required::after {
     content:'*'
 }
+
+/* Filtered Select */
+.selector h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.selector input {
+    margin: 0;
+}
+
+.selector .selector-choosen h2 {
+    background: #1EAEDB;
+}
