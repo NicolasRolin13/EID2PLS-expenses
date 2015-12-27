@@ -163,7 +163,7 @@ class ExtendedUser(models.Model):
     Extension of Django's User model with a one to one link.
     """
     user = models.OneToOneField(User)
-    nickname = models.CharField(max_length=20)
+    nickname = models.CharField(max_length=20, help_text="name to be displayed")
 
     @property
     def balance(self):
