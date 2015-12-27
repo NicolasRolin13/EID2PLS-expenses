@@ -20,11 +20,11 @@ class BillForm(forms.ModelForm):
 
     class Meta:
         model = Bill
-        exclude = ['creator', 'date', 'refund']
+        exclude = ['creator', 'date', 'refund', 'category']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['category'].widget.attrs['class'] = 'u-full-width'
+#       self.fields['category'].widget.attrs['class'] = 'u-full-width'
         self.fields['amount'].widget.attrs['class'] = 'u-full-width'
         self.fields['title'].widget.attrs['class'] = 'u-full-width'
         self.fields['description'].widget.attrs['class'] = 'u-full-width'
