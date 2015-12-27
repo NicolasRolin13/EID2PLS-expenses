@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
 from django.views.generic.edit import FormView, UpdateView
-from django.contrib.formtools.wizard.views import SessionWizardView
+from formtools.wizard.views import SessionWizardView
 from django.forms.models import formset_factory
 
 from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, UserEditForm, CustomSplitForm, CustomSplitFormSet
