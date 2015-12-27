@@ -9,9 +9,7 @@ from django.views.generic.edit import FormView, UpdateView
 from formtools.wizard.views import SessionWizardView
 from django.forms.models import formset_factory
 
-from django.contrib.auth.forms import UserCreationForm
-
-from expenses.forms import BillForm, RepaymentForm, UserEditForm, CustomSplitForm, CustomSplitFormSet
+from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, UserEditForm, CustomSplitForm, CustomSplitFormSet
 from expenses.models import Atom, Bill, ExtendedUser, User
 
 
