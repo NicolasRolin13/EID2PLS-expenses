@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 class BillForm(forms.ModelForm):
     """
-    Form for non-repayment ```Bill```.
+    Form for non-refund ```Bill```.
     """
     buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
     participants = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all())
@@ -20,7 +20,7 @@ class BillForm(forms.ModelForm):
 
     class Meta:
         model = Bill
-        exclude = ['creator', 'date', 'repayment']
+        exclude = ['creator', 'date', 'refund']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -69,7 +69,7 @@ class EmptyForm(forms.Form):
 
 class RepaymentForm(forms.ModelForm):
     """
-    Form for repayment ```Bill```.
+    Form for refund ```Bill```.
     """
     buyer = forms.ModelChoiceField(label='From', queryset=ExtendedUser.objects.all(), empty_label=None)
     participant = forms.ModelChoiceField(label='To', queryset=ExtendedUser.objects.all())

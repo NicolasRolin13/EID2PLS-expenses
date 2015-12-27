@@ -118,21 +118,21 @@ def display_bill(request, bill_id):
 
 
 class RepaymentView(FormView):
-    template_name = 'repayment_form.html'
+    template_name = 'refund_form.html'
     form_class = RepaymentForm
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        with form.save(commit=False) as repayment_model:
-            repayment_model.repayment = True
-            repayment_model.creator = self.request.user.extendeduser
-            repayment_model.title = repayment_model.repayment_name()
+        with form.save(commit=False) as refund_model:
+            refund_model.refund = True
+            refund_model.creator = self.request.user.extendeduser
+            refund_model.title = refund_model.refund_name()
             cleaned_form = form.cleaned_data
 
-            repayment_model.save()
-            repayment_model.create_atoms(cleaned_form['buyer'], cleaned_form['participant'], True)
-            repayment_model.update_amount()
-            repayment_model.save()
+            refund_model.save()
+            refund_model.create_atoms(cleaned_form['buyer'], cleaned_form['participant'], True)
+            refund_model.update_amount()
+            refund_model.save()
         return super().form_valid(form)
 
     def get_initial(self):
@@ -150,7 +150,7 @@ class RepaymentView(FormView):
 
 class UserCreateView(FormView):
     template_name = 'user_create_form.html'
-    form_class = ExtendedUserCreationForm
+    form_class = UserCreationForm
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):

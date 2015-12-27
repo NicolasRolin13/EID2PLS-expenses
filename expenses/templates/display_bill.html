@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main_content %}
-<h1>{{ bill.title }}{% if not bill.repayment %}: €{{ bill.amount }}{% endif %}</h1>
+<h1>{{ bill.title }}{% if not bill.refund %}: €{{ bill.amount }}{% endif %}</h1>
 <h3>Created by {{ bill.creator }}, on {{ bill.date }}</h3>
 
 <div class="row">

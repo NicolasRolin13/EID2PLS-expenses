@@ -33,7 +33,7 @@ class Bill(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    repayment = models.BooleanField(editable=False, default=False)
+    refund = models.BooleanField(editable=False, default=False)
 
     def __str__(self):
         return "%s - %s (%s€)" % (self.date.strftime('%c'), self.title, self.amount)
@@ -61,9 +61,9 @@ class Bill(models.Model):
         """
         return [failure for failure in cls.objects.all() if not failure.check_integrity()]
 
-    def repayment_name(self):
+    def refund_name(self):
         """
-        Gives the title for a repayment bill.
+        Gives the title for a refund bill.
         """
         return "Repayment: €%s" % (self.amount)
 
@@ -95,12 +95,12 @@ class Bill(models.Model):
             shuffle(amount_list)
             return zip(participants, amount_list)
 
-    def create_atoms(self, buyer, participants, is_repayment=False):
+    def create_atoms(self, buyer, participants, is_refund=False):
         """
         Creates the list of atoms from one ```buyer``` to ```participants``` by equal split method.
         If the amount is not a number of ```participants``` multiple, gives the remaining cents to random ```participants```.
         """
-        if is_repayment:
+        if is_refund:
             participant_atom = Atom()
             participant_atom.user = participants
             participant_atom.amount = -self.amount
