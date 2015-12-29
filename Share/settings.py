@@ -24,8 +24,6 @@ SECRET_KEY = '_6y8ii8qa6=*%ic714r$h8k2wzny!y3pc425ml0f9iitvdx8!&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -36,12 +34,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-) + \
-    ('formtools', ) if django.VERSION[:2] >= (1, 8) else () + \
-(
     'expenses',
     'django.contrib.admin',
 )
+if django.VERSION[:2] >= (1, 8):
+    INSTALLED_APPS += ('formtools', )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +64,21 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Templates
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        #'DIRS': ['expenses.templates'],
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+            ],
+            'debug': DEBUG,
+        }
+    },
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
