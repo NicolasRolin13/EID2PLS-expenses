@@ -24,12 +24,21 @@
         <h5>For:</h5>
     </div>
     <div class="four columns">
-        <ul>
+      <ul>
         {% for participant_atom in bill.list_of_negative_atoms %}
         <li>{{ participant_atom.user }} ({{ participant_atom.localised_amount }})</li>
         {% endfor %}
-</ul>
+      </ul>
     </div>
+</div>
+<div class="row">
+  <div class="two columns">
+    <a href="{% url 'wizard_bill_form_edit' bill.pk %}">
+      <button>
+        Edit
+      </button>
+    </a>
+  </div>
 </div>
 
 {% if bill.description %}<h5>Description:</h5><p>{{ bill.description }}</p>{% endif %}

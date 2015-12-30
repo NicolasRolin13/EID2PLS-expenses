@@ -5,11 +5,12 @@ from django.conf.urls import url
 from django.contrib.auth.views import login, logout
 
 from expenses import views
-from expenses.forms import BillForm, CustomSplitForm, EmptyForm
+from expenses.forms import BillForm, CustomSplitForm, EmptyForm, CustomSplitFormSet
 
 urlpatterns = [
     url(r'^$', views.view_root),
     url(r'^bill/create/?$', views.WizardBillView.as_view([BillForm, CustomSplitForm, EmptyForm]), name='wizard_bill_form'),
+    url(r'^bill/edit/(?P<bill_id>\d+)/?$', views.edit_bill, name='wizard_bill_form_edit'),
     url(r'^bill/view/(?P<bill_id>\d+)/?$', views.display_bill, name='display_bill'),
     url(r'^bill/refund/?$', views.RepaymentView.as_view(), name='refund_form'),
     url(r'^accounts/create/?$', views.UserCreateView.as_view(), name='user_create'),

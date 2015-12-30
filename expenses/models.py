@@ -22,6 +22,11 @@ class Atom(models.Model):
     def localised_amount(self):
         return "€%s" % (self.amount)
 
+    class Meta:
+        # TODO unique_together ('user', 'child_of_bill', 'amount>0')
+        #unique_together = ('user', 'child_of_bill', )
+        pass
+
 
 class Bill(models.Model):
     """
@@ -86,14 +91,18 @@ class Bill(models.Model):
         self.amount = self.calculate_positive_amount()
 
     def equal_split(self, participants):
-            decimal.getcontext().rounding = decimal.ROUND_DOWN
-            nb_of_participants = len(participants)
-            missing_cents = int(self.amount*100 % nb_of_participants)
-            base_amount = (-self.amount/nb_of_participants).quantize(Decimal('.01'))
-            amount_list = [base_amount - Decimal('0.01')]*missing_cents
-            amount_list += [base_amount]*(nb_of_participants - missing_cents)
-            shuffle(amount_list)
-            return zip(participants, amount_list)
+        """
+        Returns an (almost) equally repartition of expenditures among the
+        ``participants`` list. The result is a list of pairs (participant,amount)
+        """
+        decimal.getcontext().rounding = decimal.ROUND_DOWN
+        nb_of_participants = len(participants)
+        missing_cents = int(self.amount*100 % nb_of_participants)
+        base_amount = (-self.amount/nb_of_participants).quantize(Decimal('.01'))
+        amount_list = [base_amount - Decimal('0.01')]*missing_cents
+        amount_list += [base_amount]*(nb_of_participants - missing_cents)
+        shuffle(amount_list)
+        return zip(participants, amount_list)
 
     def create_atoms(self, buyer, participants, is_refund=False):
         """

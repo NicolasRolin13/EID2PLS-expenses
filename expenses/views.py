@@ -13,7 +13,7 @@ else:
     from formtools.wizard.views import SessionWizardView
 from django.forms.models import formset_factory
 
-from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, UserEditForm, CustomSplitForm, CustomSplitFormSet
+from expenses.forms import BillForm, RepaymentForm, ExtendedUserCreationForm, UserEditForm, CustomSplitForm, CustomSplitFormSet, EmptyForm
 from expenses.models import Atom, Bill, ExtendedUser, User
 
 
@@ -21,9 +21,11 @@ from expenses.models import Atom, Bill, ExtendedUser, User
 ###################
 
 class WizardBillView(SessionWizardView):
-    TEMPLATES = {'0': 'bill_wizard/bill_form.html',
+    TEMPLATES = {
+        '0': 'bill_wizard/bill_form.html',
         '1': 'bill_wizard/split.html',
-        '2': 'bill_wizard/confirmation.html'}
+        '2': 'bill_wizard/confirmation.html',
+    }
 
     def get_template_names(self):
         return self.TEMPLATES[self.steps.current]
@@ -33,13 +35,16 @@ class WizardBillView(SessionWizardView):
         if step is None:
             step = self.steps.current
 
+        bill = self.instance_dict.get('0', None)
         if step != '0':
             self.base_data = self.get_cleaned_data_for_step('0')
             participants = self.base_data['participants']
             self.total_amount = self.base_data['amount']
         else:
-            initial = {'buyer': self.request.user.extendeduser}
-            base_form.initial = initial
+            if bill:
+                base_form.initial.update({'participants': bill.list_of_participants()})
+            else:
+                base_form.initial.update({'buyer': self.request.user.extendeduser})
 
         if step == '1':
             num = len(participants)
@@ -49,9 +54,15 @@ class WizardBillView(SessionWizardView):
             formset = BillFormset(self.total_amount, data, initial=initial)
             for (form, user) in zip(formset, participants):
                 form.user = user
+                try:
+                    if not bill:
+                        raise Atom.DoesNotExist()
+                    prev = bill.atoms.get(user=user, amount__gte=0).amount
+                    form.initial.update({'amount': prev,})
+                except Atom.DoesNotExist:
+                    pass
             self.atom_forms = [form for form in formset]
             return formset
-
         else:
             return base_form
 
@@ -72,8 +83,10 @@ class WizardBillView(SessionWizardView):
     def done(self, form_list, form_dict, **kwargs):
         with form_dict['0'].save(commit=False) as bill_model:
             bill_model.creator = self.request.user.extendeduser
-
             bill_model.save() #Register the object to the database
+
+            for atom in bill_model.atoms.all():
+                atom.delete()
 
             for form in form_dict['1']:
                 atom_model = form.save(commit=False)
@@ -111,6 +124,13 @@ class NormalBillView(FormView):
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
+@login_required
+def edit_bill(request, bill_id):
+    bill = get_object_or_404(Bill, pk=bill_id)
+    return WizardBillView.as_view([BillForm, CustomSplitForm, EmptyForm],
+        instance_dict={
+            '0': bill,
+    })(request)
 
 @login_required
 def display_bill(request, bill_id):
