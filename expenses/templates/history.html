@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load total_amount %}
 
 {% block context_header %}
 {% endblock %}
@@ -17,15 +18,24 @@
     </tr>
     </thead>
     <tbody>
-{% for bill in bills %}
+{% regroup bills by date.date as date_list %}
+{% for date_entry in date_list %}
+    <tr class="date_category">
+        <td colspan="2">{{ date_entry.grouper }}</td>
+        <td colspan="4">
+          {{ date_entry.list|total_amount }}
+        </td>
+    </tr>
+    {% for bill in date_entry.list %}
     <tr>
-        <td>{{ bill.date }}</td>
+        <td>{{ bill.date.time }}</td>
         <td><a href="{% url 'display_bill' bill.pk %}">{{ bill.title }}</a></td>
         <td>{{ bill.amount }}</td>
         <td>{% for buyer in bill.list_of_buyers %}{{ buyer.user }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
         <td>{% for participant in bill.list_of_participants %}{{ participant.user }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
         <td>{{ bill.creator }}</td>
     </tr>
+    {% endfor %}
 {% endfor %}
     </tbody>
 </table>

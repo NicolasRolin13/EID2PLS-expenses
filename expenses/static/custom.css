@@ -146,3 +146,8 @@ label.required::after {
 .selector .selector-choosen h2 {
     background: #1EAEDB;
 }
+
+.date_category {
+    background: rgba(0,0,0,0.2);
+    text-align: left;
+}
