@@ -259,7 +259,7 @@ def view_balances(request):
 @login_required
 def view_history(request, history_id):
     history_id = int(history_id)
-    queryset = Bill.objects.all().order_by('id')[history_id*10:(history_id + 1)*10]
+    queryset = Bill.objects.all().order_by('-id')[history_id*10:(history_id + 1)*10]
     bills = get_list_or_404(queryset)
     if history_id == 0:
         has_previous = False
