@@ -6,6 +6,7 @@ from expenses.models import Atom, Bill, ExtendedUser
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext as _
 
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
@@ -64,7 +65,10 @@ class CustomSplitFormSet(forms.formsets.BaseFormSet):
         super().clean(*args, **kwargs)
         total_amount = sum([form.cleaned_data['amount'] for form in self.forms])
         if self.total_amount != total_amount:
-            validation_message = "Sum of user amounts (%s) doesn't match the bill amount (%s)" % (total_amount, self.total_amount)
+            validation_message = "Sum of user amounts (%(total_amount_user)s) doesn't match the bill amount (%(total_amount)s)" % {
+                'total_amount_user': total_amount,
+                'total_amount': self.total_amount,
+            }
             raise forms.ValidationError(validation_message)
 
     def __init__(self, total_amount, *args, **kwargs):

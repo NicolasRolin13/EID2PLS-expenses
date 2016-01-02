@@ -1,0 +1,253 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-02 18:00+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:21
+#, python-format
+msgid "%(user)s: %(amount)s for %(bill)s"
+msgstr "%(user)s: %(amount)s pour %(bill)s"
+
+#: models.py:50
+#, python-format
+msgid "%(time)s - %(title)s (%(amount)s€)"
+msgstr ""
+
+#: templates/account_history.html:7
+#, python-format
+msgid ""
+"Last %(number)s bills you\n"
+"    participated in:"
+msgstr ""
+"%(number)s dernières factures\n"
+"    vous impliquant :"
+
+#: templates/balances.html:8
+msgid "Balance of users:"
+msgstr "Soldes des utilisateurs :"
+
+#: templates/base.html:16
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/base.html:19
+msgid "Bill"
+msgstr "Facture"
+
+#: templates/base.html:21
+msgid "Create"
+msgstr "Créer"
+
+#: templates/base.html:22
+msgid "Refund"
+msgstr "Remboursement"
+
+#: templates/base.html:25
+msgid "Accounts"
+msgstr "Comptes"
+
+#: templates/base.html:26
+msgid "History"
+msgstr "Historique"
+
+#: templates/base.html:27
+msgid "Edit Account"
+msgstr "Edition du compte"
+
+#: templates/base.html:28
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: templates/base.html:32
+msgid "Language"
+msgstr "Langue"
+
+#: templates/base.html:55
+msgid "Expenses"
+msgstr ""
+
+#: templates/base.html:56
+msgid "version draft-0.3"
+msgstr ""
+
+#: templates/basic_form.html:36 templates/bill_wizard/base.html:19
+#: templates/repayment_form.html:29 templates/user_create_form.html:9
+#: templates/user_edit_form.html:40
+msgid "Submit"
+msgstr "Envoyer"
+
+#: templates/bill_wizard/base.html:8
+#, python-format
+msgid ""
+"\n"
+"    Bill creation: step %(wizard.steps.step1)s of %(wizard.steps.count)s\n"
+msgstr ""
+"\n"
+"    Création de la facture : étape %(wizard.steps.step1)s sur "
+"%(wizard.steps.count)s\n"
+
+#: templates/bill_wizard/base.html:16
+msgid "First"
+msgstr "Première"
+
+#: templates/bill_wizard/base.html:17 templates/history.html:44
+msgid "Previous"
+msgstr "Précédente"
+
+#: templates/bill_wizard/confirmation.html:4
+msgid "Please confirm the following information"
+msgstr "Merci de valider les informations suivantes"
+
+#: templates/bill_wizard/confirmation.html:5
+msgid "Buyers"
+msgstr "Acheteurs"
+
+#: templates/bill_wizard/confirmation.html:7
+#, python-format
+msgid "%(buyer.user)s has paid %(buyer.amount)s"
+msgstr "%(buyer.user)s a payé %(buyer.amount)s"
+
+#: templates/bill_wizard/confirmation.html:9
+msgid "Participants"
+msgstr ""
+
+#: templates/bill_wizard/confirmation.html:12
+#, python-format
+msgid "%(participant.user)s takes part for %(participant.amount)s"
+msgstr "%(participant.user)s prend part à hauteur de %(participant.amount)s"
+
+#: templates/bill_wizard/split.html:10
+#, python-format
+msgid "Choose your split for %(total_amount)s"
+msgstr "Merci de déterminer la répartition pour %(total_amount)s"
+
+#: templates/bill_wizard/split.html:14
+#, python-format
+msgid "Amount for %(sub_form.user)s:"
+msgstr "Montant pour %(sub_form.user)s :"
+
+#: templates/display_bill.html:10
+#, python-format
+msgid "Created by %(bill.creator)s, on %(bill.date)s\n"
+msgstr "Crée par %(bill.creator)s, le %(bill.date)s\n"
+
+#: templates/display_bill.html:15
+msgid "Paid by:"
+msgstr "Payé par :"
+
+#: templates/display_bill.html:26
+msgid "For:"
+msgstr "Pour :"
+
+#: templates/display_bill.html:40
+msgid "Edit"
+msgstr "Édition"
+
+#: templates/display_bill.html:46
+msgid "Description:"
+msgstr "Description"
+
+#: templates/history.html:10 templates/home.html:24
+msgid "Last transactions:"
+msgstr "Dernières transactions :"
+
+#: templates/history.html:13 templates/home.html:27
+msgid "Date"
+msgstr "Date"
+
+#: templates/history.html:14 templates/home.html:28
+msgid "Name"
+msgstr "Nom"
+
+#: templates/history.html:15 templates/home.html:29
+msgid "Amount"
+msgstr "Montant"
+
+#: templates/history.html:16 templates/home.html:30
+msgid "Paid by"
+msgstr "Payé par"
+
+#: templates/history.html:17 templates/home.html:31
+msgid "For"
+msgstr "Pour"
+
+#: templates/history.html:18 templates/home.html:32
+msgid "Created by"
+msgstr "Créé par"
+
+#: templates/history.html:47
+msgid "Next"
+msgstr "Suivante"
+
+#: templates/home.html:8
+#, python-format
+msgid "Welcome %(nick)s."
+msgstr "Bienvenue, %(nick)s."
+
+#: templates/home.html:10
+#, python-format
+msgid ""
+"\"You have <span class=\"color-%(status)s\">€%(balance)s</span> on your "
+"account.\""
+msgstr ""
+"\"Vous avez <span class=\"color-%(status)s\">€%(balance)s</span> sur votre "
+"solde.\""
+
+#: templates/home.html:14
+msgid "Create a new bill"
+msgstr "Créer une nouvelle facture"
+
+#: templates/home.html:17
+msgid "See accounts"
+msgstr "Voir les comptes"
+
+#: templates/home.html:20
+msgid "Declare a refund"
+msgstr "Déclarer un remboursement"
+
+#: templates/registration/logged_out.html:4
+msgid "You're now successfully logged out."
+msgstr "Vous avez été correctement déconnecté."
+
+#: templates/registration/login.html:6
+msgid "Please log in."
+msgstr "Merci de vous connecter"
+
+#: templates/registration/login.html:26 templates/root.html:23
+msgid "Log in"
+msgstr "Se connecter"
+
+#: templates/root.html:11
+#, python-format
+msgid ""
+"\n"
+"    <span class=\"expenses\">%(expenses)s</span> is a simple web "
+"application\n"
+"        that allows you to manage expenses between friends.\n"
+"    "
+msgstr ""
+"\n"
+"    <span class=\"expenses\">%(expenses)s</span> est un application\n"
+"web permettant de gérer des dépenses entre amis."
+
+#: templates/root.html:18
+msgid "Please log in or sign up to continue."
+msgstr "Merci de vous connecter ou de vous inscrire pour continuer."
+
+#: templates/root.html:26
+msgid "Sign up"
+msgstr "Inscription"

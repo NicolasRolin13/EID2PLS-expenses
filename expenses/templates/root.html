@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block context_header %}
 {% endblock %}
@@ -7,19 +8,22 @@
 <h1>Welcome on <span class="expenses">Expenses</span>.</h1>
 
 <p id="welcome-message">
-    <span class="expenses">Expenses</span> is a simple web application that allows you to manage expenses between friends.
+    {% blocktrans with expenses="Expenses" %}
+    <span class="expenses">{{ expenses }}</span> is a simple web application
+        that allows you to manage expenses between friends.
+    {% endblocktrans %}
 </p>
 
 <p id="continue-message">
-    Please log in or sign up to continue.
+  {% trans "Please log in or sign up to continue." %}
 </p>
 
 <div class="row">
     <div class="six columns">
-        <a href="{% url 'login' %}?next={% url 'home' %}"><button>Log in</button></a>
+        <a href="{% url 'login' %}?next={% url 'home' %}"><button>{% trans "Log in" %}</button></a>
     </div>
     <div class="six columns">
-        <a href="{% url 'user_create' %}"><button>Sign up</button></a>
+        <a href="{% url 'user_create' %}"><button>{% trans "Sign up" %}</button></a>
     </div>
 </div>
 {% endblock %}

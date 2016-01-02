@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load total_amount %}
 
 {% block context_header %}
@@ -6,15 +7,15 @@
 {% block main_content %}
 
 <table class="u-full-width">
-    <caption>Last transactions:</caption>
+    <caption>{% trans "Last transactions:" %}</caption>
     <thead>
     <tr>
-        <th>Date</th>
-        <th>Name</th>
-        <th>Amount</th>
-        <th>Paid by</th>
-        <th>For</th>
-        <th>Created by</th>
+        <th>{% trans "Date" %}</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Amount" %}</th>
+        <th>{% trans "Paid by" %}</th>
+        <th>{% trans "For" %}</th>
+        <th>{% trans "Created by" %}</th>
     </tr>
     </thead>
     <tbody>
@@ -40,9 +41,9 @@
     </tbody>
 </table>
 {% if has_previous %}
-    <a href="{% url 'history' id|add:"-1" %}"><button>Previous</button></a>
+    <a href="{% url 'history' id|add:"-1" %}"><button>{% trans "Previous" %}</button></a>
 {% endif %}
 {% if has_next %}
-    <a href="{% url 'history' id|add:"+1" %}"><button>Next</button></a>
+    <a href="{% url 'history' id|add:"+1" %}"><button>{% trans "Next" %}</button></a>
 {% endif %}
 {% endblock %}

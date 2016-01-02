@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block context_header %}
 <link rel="stylesheet" href="/static/specific/display_bill.css">
@@ -6,11 +7,12 @@
 
 {% block main_content %}
 <h1>{{ bill.title }}{% if not bill.refund %}: €{{ bill.amount }}{% endif %}</h1>
-<h3>Created by {{ bill.creator }}, on {{ bill.date }}</h3>
+<h3>{% blocktrans %}Created by {{ bill.creator }}, on {{ bill.date }}
+{% endblocktrans %}</h3>
 
 <div class="row">
     <div class="two columns">
-    <h5>Paid by:</h5>
+    <h5>{% trans "Paid by:" %}</h5>
     </div>
     <div class="four columns">
     <ul>
@@ -21,7 +23,7 @@
     </div>
 
     <div class="two columns">
-        <h5>For:</h5>
+        <h5>{% trans "For:" %}</h5>
     </div>
     <div class="four columns">
       <ul>
@@ -35,12 +37,12 @@
   <div class="two columns">
     <a href="{% url 'wizard_bill_form_edit' bill.pk %}">
       <button>
-        Edit
+        {% trans "Edit" %}
       </button>
     </a>
   </div>
 </div>
 
-{% if bill.description %}<h5>Description:</h5><p>{{ bill.description }}</p>{% endif %}
+{% if bill.description %}<h5>{% trans "Description:" %}</h5><p>{{ bill.description }}</p>{% endif %}
 
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block context_header %}
 <!-- <link rel="stylesheet" href="/static/home.css"> -->
@@ -32,7 +33,7 @@
          {{ form.description.label_tag}}
          {{ form.description }}
     {% csrf_token %}
-    <input class="button-primary" type=submit value="Submit" />
+    <input class="button-primary" type=submit value="{% trans "Submit" %}" />
 </form>
 
 {% endblock %}

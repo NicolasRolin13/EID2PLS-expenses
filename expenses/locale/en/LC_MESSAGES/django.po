@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-02 18:02+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: expenses/models.py:21
+#, python-format
+msgid "%(user)s: %(amount)s for %(bill)s"
+msgstr ""
+
+#: expenses/models.py:50
+#, python-format
+msgid "%(time)s - %(title)s (%(amount)s€)"
+msgstr ""
+
+#: expenses/templates/account_history.html:7
+#, python-format
+msgid ""
+"Last %(number)s bills you\n"
+"    participated in:"
+msgstr ""
+
+#: expenses/templates/balances.html:8
+msgid "Balance of users:"
+msgstr ""
+
+#: expenses/templates/base.html:16
+msgid "Home"
+msgstr ""
+
+#: expenses/templates/base.html:19
+msgid "Bill"
+msgstr ""
+
+#: expenses/templates/base.html:21
+msgid "Create"
+msgstr ""
+
+#: expenses/templates/base.html:22
+msgid "Refund"
+msgstr ""
+
+#: expenses/templates/base.html:25
+msgid "Accounts"
+msgstr ""
+
+#: expenses/templates/base.html:26
+msgid "History"
+msgstr ""
+
+#: expenses/templates/base.html:27
+msgid "Edit Account"
+msgstr ""
+
+#: expenses/templates/base.html:28
+msgid "Logout"
+msgstr ""
+
+#: expenses/templates/base.html:32
+msgid "Language"
+msgstr ""
+
+#: expenses/templates/base.html:55
+msgid "Expenses"
+msgstr ""
+
+#: expenses/templates/base.html:56
+msgid "version draft-0.3"
+msgstr ""
+
+#: expenses/templates/basic_form.html:36
+#: expenses/templates/bill_wizard/base.html:19
+#: expenses/templates/repayment_form.html:29
+#: expenses/templates/user_create_form.html:9
+#: expenses/templates/user_edit_form.html:40
+msgid "Submit"
+msgstr ""
+
+#: expenses/templates/bill_wizard/base.html:8
+#, python-format
+msgid ""
+"\n"
+"    Bill creation: step %(wizard.steps.step1)s of %(wizard.steps.count)s\n"
+msgstr ""
+
+#: expenses/templates/bill_wizard/base.html:16
+msgid "First"
+msgstr ""
+
+#: expenses/templates/bill_wizard/base.html:17
+#: expenses/templates/history.html:44
+msgid "Previous"
+msgstr ""
+
+#: expenses/templates/bill_wizard/confirmation.html:4
+msgid "Please confirm the following information"
+msgstr ""
+
+#: expenses/templates/bill_wizard/confirmation.html:5
+msgid "Buyers"
+msgstr ""
+
+#: expenses/templates/bill_wizard/confirmation.html:7
+#, python-format
+msgid "%(buyer.user)s has paid %(buyer.amount)s"
+msgstr ""
+
+#: expenses/templates/bill_wizard/confirmation.html:9
+msgid "Participants"
+msgstr ""
+
+#: expenses/templates/bill_wizard/confirmation.html:12
+#, python-format
+msgid "%(participant.user)s takes part for %(participant.amount)s"
+msgstr ""
+
+#: expenses/templates/bill_wizard/split.html:10
+#, python-format
+msgid "Choose your split for %(total_amount)s"
+msgstr ""
+
+#: expenses/templates/bill_wizard/split.html:14
+#, python-format
+msgid "Amount for %(sub_form.user)s:"
+msgstr ""
+
+#: expenses/templates/display_bill.html:10
+#, python-format
+msgid "Created by %(bill.creator)s, on %(bill.date)s\n"
+msgstr ""
+
+#: expenses/templates/display_bill.html:15
+msgid "Paid by:"
+msgstr ""
+
+#: expenses/templates/display_bill.html:26
+msgid "For:"
+msgstr ""
+
+#: expenses/templates/display_bill.html:40
+msgid "Edit"
+msgstr ""
+
+#: expenses/templates/display_bill.html:46
+msgid "Description:"
+msgstr ""
+
+#: expenses/templates/history.html:10 expenses/templates/home.html:24
+msgid "Last transactions:"
+msgstr ""
+
+#: expenses/templates/history.html:13 expenses/templates/home.html:27
+msgid "Date"
+msgstr ""
+
+#: expenses/templates/history.html:14 expenses/templates/home.html:28
+msgid "Name"
+msgstr ""
+
+#: expenses/templates/history.html:15 expenses/templates/home.html:29
+msgid "Amount"
+msgstr ""
+
+#: expenses/templates/history.html:16 expenses/templates/home.html:30
+msgid "Paid by"
+msgstr ""
+
+#: expenses/templates/history.html:17 expenses/templates/home.html:31
+msgid "For"
+msgstr ""
+
+#: expenses/templates/history.html:18 expenses/templates/home.html:32
+msgid "Created by"
+msgstr ""
+
+#: expenses/templates/history.html:47
+msgid "Next"
+msgstr ""
+
+#: expenses/templates/home.html:8
+#, python-format
+msgid "Welcome %(nick)s."
+msgstr ""
+
+#: expenses/templates/home.html:10
+#, python-format
+msgid ""
+"\"You have <span class=\"color-%(status)s\">€%(balance)s</span> on your "
+"account.\""
+msgstr ""
+
+#: expenses/templates/home.html:14
+msgid "Create a new bill"
+msgstr ""
+
+#: expenses/templates/home.html:17
+msgid "See accounts"
+msgstr ""
+
+#: expenses/templates/home.html:20
+msgid "Declare a refund"
+msgstr ""
+
+#: expenses/templates/registration/logged_out.html:4
+msgid "You're now successfully logged out."
+msgstr ""
+
+#: expenses/templates/registration/login.html:6
+msgid "Please log in."
+msgstr ""
+
+#: expenses/templates/registration/login.html:26
+#: expenses/templates/root.html:23
+msgid "Log in"
+msgstr ""
+
+#: expenses/templates/root.html:11
+#, python-format
+msgid ""
+"\n"
+"    <span class=\"expenses\">%(expenses)s</span> is a simple web "
+"application\n"
+"        that allows you to manage expenses between friends.\n"
+"    "
+msgstr ""
+
+#: expenses/templates/root.html:18
+msgid "Please log in or sign up to continue."
+msgstr ""
+
+#: expenses/templates/root.html:26
+msgid "Sign up"
+msgstr ""

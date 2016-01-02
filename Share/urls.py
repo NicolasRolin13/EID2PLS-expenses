@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^admin/jsi18n/$', javascript_catalog),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('expenses.urls')),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 ]

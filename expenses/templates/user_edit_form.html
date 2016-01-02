@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block context_header %}
 {% endblock %}
@@ -36,7 +37,7 @@
             {{ form.nickname.errors }}
         </div>
     </div>
-    <input class="button-primary" type=submit value="Submit" />
+    <input class="button-primary" type=submit value="{% trans "Submit" %}" />
 </form>
 
 {% endblock %}

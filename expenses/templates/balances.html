@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block context_header %}
 <link rel="stylesheet" href="/static/specific/balances.css">
 {% endblock %}
 {% block main_content %}
-<h1>Balance of users:</h1>
+<h1>{% trans "Balance of users:" %}</h1>
 {% for user_element in users|dictsortreversed:"balance" %}
     <div class="row">
         <span class="six columns nickname {% if user_element.user == user %}current-user{% endif %}">{{ user_element.nickname }}</span>

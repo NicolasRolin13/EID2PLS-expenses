@@ -1,3 +1,4 @@
+{% load i18n %}
 <!doctype html>
 <html>
     <head>
@@ -12,20 +13,38 @@
             <nav>
                 <ul>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
                     <li>
                         <input type="checkbox" id="Bill"/>
-                        <label for="Bill"><a>Bill</a></label>
+                        <label for="Bill"><a>{% trans "Bill" %}</a></label>
                         <ul>
-                            <li><a href="{% url 'wizard_bill_form' %}">Create</a></li>
-                            <li><a href="{% url 'refund_form' %}">Refund</a></li>
+                            <li><a href="{% url 'wizard_bill_form' %}">{% trans "Create" %}</a></li>
+                            <li><a href="{% url 'refund_form' %}">{% trans "Refund" %}</a></li>
                         </ul>
                     </li>
-                    <li><a href="{% url 'balances' %}">Accounts</a></li>
-                    <li><a href="{% url 'history' 0 %}">History</a></li>
-                    <li><a href="{% url 'user_edit' %}">Edit Account</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'balances' %}">{% trans "Accounts" %}</a></li>
+                    <li><a href="{% url 'history' 0 %}">{% trans "History" %}</a></li>
+                    <li><a href="{% url 'user_edit' %}">{% trans "Edit Account" %}</a></li>
+                    <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
                     {% endif %}
+                    <li>
+                        <input type="checkbox" id="Language"/>
+                        <label for="Language"><a>{% trans "Language" %}</a></label>
+                        <ul>
+                          <li>
+                           <form method="POST" action="{% url 'set_language' %}">
+                           {% csrf_token %}
+                           <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                           {% get_current_language as LANGUAGE_CODE %}
+                           {% get_available_languages as LANGUAGES %}
+                           {% get_language_info_list for LANGUAGES as languages %}
+                           {% for language in languages %}
+                               <input type="submit" name="language" value="{{ language.code }}{% if language.code == LANGUAGE_CODE %}(current){% endif %}" />
+                           {% endfor %}
+                           </form>
+                          </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </header>
@@ -33,7 +52,8 @@
     {% block main_content %}{% endblock %}
     </div>
     <footer>
-        <span class="expenses">Expenses</span> version draft-0.3
+        <span class="expenses">{% trans "Expenses" %}</span>
+        {% blocktrans with version="draft-0.3"%}version draft-0.3{% endblocktrans %}
     </footer>
     </body>
 </html>

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block main_content %}
 <div class="django-table">
-<span class="table-title">Last 20 bills you participated in:</span>
+<span class="table-title">
+    {% blocktrans with number=20 %}Last {{ number }} bills you
+    participated in:{% endblocktrans %}</span>
 <table class="minimalist-table">
     <tr>
         <th>Bill</th>

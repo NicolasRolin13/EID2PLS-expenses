@@ -1,19 +1,22 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block context_header %}
 {% endblock %}
 
 {% block main_content %}
-<p>Bill creation: step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+<p>{% blocktrans %}
+    Bill creation: step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+{% endblocktrans %}</p>
 <form action="" method="post">{% csrf_token %}
 {{ wizard.management_form }}
     {% block form_content %}
     {% endblock %}
 {% if wizard.steps.prev %}
-<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">First</button>
-<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Previous</button>
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "First" %}</button>
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
 {% endif %}
-<input class="button-primary" type="submit" value="Submit"/>
+<input class="button-primary" type="submit" value="{% trans "Submit" %}"/>
 </form>
 
 {% endblock %}

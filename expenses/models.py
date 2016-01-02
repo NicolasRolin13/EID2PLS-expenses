@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 import decimal
 from decimal import Decimal
@@ -17,9 +18,14 @@ class Atom(models.Model):
     child_of_bill = models.ForeignKey('Bill', related_name='atoms')
 
     def __str__(self):  # TODO: code actual localisation
-        return "%s: %s for %s" % (self.user, self.localised_amount(), self.child_of_bill.title)
+        return _("%(user)s: %(amount)s for %(bill)s") % {
+            'user': self.user,
+            'amount': self.localised_amount(),
+            'bill': self.child_of_bill.title,
+        }
 
     def localised_amount(self):
+        # TODO
         return "€%s" % (self.amount)
 
     class Meta:
@@ -41,7 +47,11 @@ class Bill(models.Model):
     refund = models.BooleanField(editable=False, default=False)
 
     def __str__(self):
-        return "%s - %s (%s€)" % (self.date.strftime('%c'), self.title, self.amount)
+        return _("%(time)s - %(title)s (%(amount)s€)") % {
+            'time': self.date.strftime('%c'),
+            'title': self.title,
+            'amount': self.amount,
+        }
 
     def clean(self, *args, **kwargs):
         try:
