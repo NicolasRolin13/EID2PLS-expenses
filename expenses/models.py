@@ -54,11 +54,14 @@ class Bill(models.Model):
         }
 
     def clean(self, *args, **kwargs):
+        """
+        Integrity check and hack for empty form (self.atoms.all() == [])
+        """
         try:
             self.check_integrity()
         except ValidationError:
             if self.atoms.all():
-                raise
+                raise # Raise the last exception
 
     def check_integrity(self):
         """
