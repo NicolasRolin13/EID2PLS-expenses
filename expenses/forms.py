@@ -6,7 +6,7 @@ from expenses.models import Atom, Bill, ExtendedUser
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
@@ -15,7 +15,7 @@ class BillForm(forms.ModelForm):
     """
     Form for non-refund ```Bill```.
     """
-    buyer = forms.ModelChoiceField(queryset=ExtendedUser.objects.all(), empty_label=None)
+    buyer = forms.ModelChoiceField(label=_("Buyer"), queryset=ExtendedUser.objects.all(), empty_label=None)
     participants = forms.ModelMultipleChoiceField(queryset=ExtendedUser.objects.all(), widget=FilteredSelectMultiple("users", False))
 
     error_css_class = 'error'

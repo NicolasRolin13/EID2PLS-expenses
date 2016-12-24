@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block main_content %}
-<p>{% blocktrans %}
-    Bill creation: step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+<p>{% blocktrans with step1=wizard.steps.step1 count=wizard.steps.count %}
+    Bill creation: step {{ step1 }} of {{ count }}
 {% endblocktrans %}</p>
 <form action="" method="post">{% csrf_token %}
 {{ wizard.management_form }}

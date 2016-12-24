@@ -7,7 +7,7 @@
 
 <h1>{% blocktrans with nick=user.extendeduser.nickname %}Welcome {{ nick }}.{% endblocktrans %}</h1>
 
-<h2>{% blocktrans %}"You have <span class="color-{{ status }}">€{{ balance }}</span> on your account."{% endblocktrans %}</h2>
+<h2>{% blocktrans %}"You have <span class="color-{{ status }}">{{ balance }} €</span> on your account."{% endblocktrans %}</h2>
 
 <div class="row">
     <div class="three columns">

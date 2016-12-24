@@ -7,11 +7,11 @@
     {{ form.non_form_errors }}
 </div>
 
-<h2>{% blocktrans %}Choose your split for {{ total_amount }}{% endblocktrans %}</h2>
+<h2>{% blocktrans %}Choose your split for{% endblocktrans %} {{ total_amount }}</h2>
 <div class="row">
 {% for sub_form in form.forms %}
     <div class="offset-by-one-third columns">
-        <label>{% blocktrans %}Amount for {{ sub_form.user }}:{% endblocktrans %}</label>
+        <label>{% blocktrans %}Amount for{% endblocktrans %} {{ sub_form.user }}:</label>
         {{ sub_form.amount }}
     </div>
 {% endfor %}

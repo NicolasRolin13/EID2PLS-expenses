@@ -57,8 +57,8 @@ class WizardBillView(SessionWizardView):
                 try:
                     if not bill:
                         raise Atom.DoesNotExist()
-                    prev = bill.atoms.get(user=user, amount__gte=0).amount
-                    form.initial.update({'amount': prev,})
+                    prev = -bill.atoms.get(user=user, amount__lte=0).amount
+                    form.initial.update({'amount': prev})
                 except Atom.DoesNotExist:
                     pass
             self.atom_forms = [form for form in formset]

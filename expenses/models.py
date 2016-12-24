@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 import decimal
 from decimal import Decimal
@@ -13,7 +13,7 @@ class Atom(models.Model):
     Model for elemental operation, which contain a user and a signed amount.
     """
     user = models.ForeignKey('ExtendedUser', related_name='atoms')
-    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    amount = models.DecimalField(verbose_name=_("Amount"), max_digits=6, decimal_places=2)
     date = models.DateTimeField(auto_now=True)
     child_of_bill = models.ForeignKey('Bill', related_name='atoms')
 
@@ -26,7 +26,7 @@ class Atom(models.Model):
 
     def localised_amount(self):
         # TODO
-        return "€%s" % (self.amount)
+        return "%s €" % (abs(self.amount),)
 
     class Meta:
         # TODO unique_together ('user', 'child_of_bill', 'amount>0')
@@ -40,14 +40,14 @@ class Bill(models.Model):
     """
     creator = models.ForeignKey('ExtendedUser')
     category = models.ManyToManyField('Category', blank=True)
-    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    amount = models.DecimalField(verbose_name=_("Amount"), max_digits=6, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(verbose_name=_("Title"), max_length=100)
     description = models.TextField(blank=True)
     refund = models.BooleanField(editable=False, default=False)
 
     def __str__(self):
-        return _("%(time)s - %(title)s (%(amount)s€)") % {
+        return _("%(time)s - %(title)s: %(amount)s €") % {
             'time': self.date.strftime('%c'),
             'title': self.title,
             'amount': self.amount,
@@ -83,7 +83,7 @@ class Bill(models.Model):
         """
         Gives the title for a refund bill.
         """
-        return "Repayment: €%s" % (self.amount)
+        return _("Repayment: ") + "%s €" % (self.amount,)
 
     def calculate_positive_amount(self):
         """

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-02 18:00+0100\n"
+"POT-Creation-Date: 2016-12-24 11:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: forms.py:18
+msgid "Buyer"
+msgstr "Acheteur"
+
+#: models.py:16 models.py:43 templates/history.html:15 templates/home.html:29
+msgid "Amount"
+msgstr "Montant"
+
 #: models.py:21
 #, python-format
 msgid "%(user)s: %(amount)s for %(bill)s"
 msgstr "%(user)s: %(amount)s pour %(bill)s"
 
+#: models.py:45
+msgid "Title"
+msgstr "Titre"
+
 #: models.py:50
 #, python-format
-msgid "%(time)s - %(title)s (%(amount)s€)"
+msgid "%(time)s - %(title)s: %(amount)s €"
 msgstr ""
+
+#: models.py:86
+msgid "Repayment: "
+msgstr "Remboursement: "
 
 #: templates/account_history.html:7
 #, python-format
@@ -78,14 +94,14 @@ msgstr "Langue"
 
 #: templates/base.html:55
 msgid "Expenses"
-msgstr ""
+msgstr "Dépenses"
 
 #: templates/base.html:56
 msgid "version draft-0.3"
 msgstr ""
 
 #: templates/basic_form.html:36 templates/bill_wizard/base.html:19
-#: templates/repayment_form.html:29 templates/user_create_form.html:9
+#: templates/refund_form.html:29 templates/user_create_form.html:10
 #: templates/user_edit_form.html:40
 msgid "Submit"
 msgstr "Envoyer"
@@ -94,11 +110,10 @@ msgstr "Envoyer"
 #, python-format
 msgid ""
 "\n"
-"    Bill creation: step %(wizard.steps.step1)s of %(wizard.steps.count)s\n"
+"    Bill creation: step %(step1)s of %(count)s\n"
 msgstr ""
 "\n"
-"    Création de la facture : étape %(wizard.steps.step1)s sur "
-"%(wizard.steps.count)s\n"
+"    Création de la facture : étape %(step1)s sur %(count)s\n"
 
 #: templates/bill_wizard/base.html:16
 msgid "First"
@@ -108,42 +123,40 @@ msgstr "Première"
 msgid "Previous"
 msgstr "Précédente"
 
-#: templates/bill_wizard/confirmation.html:4
+#: templates/bill_wizard/confirmation.html:5
 msgid "Please confirm the following information"
 msgstr "Merci de valider les informations suivantes"
 
-#: templates/bill_wizard/confirmation.html:5
+#: templates/bill_wizard/confirmation.html:6
 msgid "Buyers"
 msgstr "Acheteurs"
 
-#: templates/bill_wizard/confirmation.html:7
+#: templates/bill_wizard/confirmation.html:8
 #, python-format
-msgid "%(buyer.user)s has paid %(buyer.amount)s"
-msgstr "%(buyer.user)s a payé %(buyer.amount)s"
+msgid "%(user)s has paid %(amount)s"
+msgstr "%(user)s a payé %(amount)s"
 
-#: templates/bill_wizard/confirmation.html:9
+#: templates/bill_wizard/confirmation.html:10
 msgid "Participants"
 msgstr ""
 
-#: templates/bill_wizard/confirmation.html:12
+#: templates/bill_wizard/confirmation.html:13
 #, python-format
-msgid "%(participant.user)s takes part for %(participant.amount)s"
-msgstr "%(participant.user)s prend part à hauteur de %(participant.amount)s"
+msgid "%(user)s takes part for %(amount)s"
+msgstr "%(user)s prend part à hauteur de %(amount)s"
 
 #: templates/bill_wizard/split.html:10
-#, python-format
-msgid "Choose your split for %(total_amount)s"
-msgstr "Merci de déterminer la répartition pour %(total_amount)s"
+msgid "Choose your split for"
+msgstr "Merci de déterminer la répartition pour"
 
 #: templates/bill_wizard/split.html:14
-#, python-format
-msgid "Amount for %(sub_form.user)s:"
-msgstr "Montant pour %(sub_form.user)s :"
+msgid "Amount for"
+msgstr "Montant pour"
 
 #: templates/display_bill.html:10
 #, python-format
-msgid "Created by %(bill.creator)s, on %(bill.date)s\n"
-msgstr "Crée par %(bill.creator)s, le %(bill.date)s\n"
+msgid "Created by %(creator)s, on %(date)s\n"
+msgstr "Crée par %(creator)s, le %(date)s\n"
 
 #: templates/display_bill.html:15
 msgid "Paid by:"
@@ -173,10 +186,6 @@ msgstr "Date"
 msgid "Name"
 msgstr "Nom"
 
-#: templates/history.html:15 templates/home.html:29
-msgid "Amount"
-msgstr "Montant"
-
 #: templates/history.html:16 templates/home.html:30
 msgid "Paid by"
 msgstr "Payé par"
@@ -201,10 +210,10 @@ msgstr "Bienvenue, %(nick)s."
 #: templates/home.html:10
 #, python-format
 msgid ""
-"\"You have <span class=\"color-%(status)s\">€%(balance)s</span> on your "
+"\"You have <span class=\"color-%(status)s\">%(balance)s €</span> on your "
 "account.\""
 msgstr ""
-"\"Vous avez <span class=\"color-%(status)s\">€%(balance)s</span> sur votre "
+"\"Vous avez <span class=\"color-%(status)s\">%(balance)s €</span> sur votre "
 "solde.\""
 
 #: templates/home.html:14
