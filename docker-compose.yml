@@ -5,10 +5,30 @@ services:
     image: postgres:latest
   web:
     build: .
-    command: python3 manage.py makemigrations migrate runserver 127.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     depends_on:
       - db
+      - migration
+      - makemigration
+  makemigration:
+    build: .
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "makemigrations"]
+    volumes:
+      - .:/code
+    links:
+      - db
+    depends_on:
+      - db
+  migration:
+    build: .
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "migrate"]
+    volumes:
+      - .:/code
+    links:
+      - db
+    depends_on:
+      - makemigration
