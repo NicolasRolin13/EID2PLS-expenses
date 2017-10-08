@@ -24,7 +24,8 @@ SECRET_KEY = '_6y8ii8qa6=*%ic714r$h8k2wzny!y3pc425ml0f9iitvdx8!&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# /!\ * for demo version, don't do this in prod !!!
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -59,12 +60,23 @@ WSGI_APPLICATION = 'Share.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
+
 
 # Templates
 TEMPLATES = [
