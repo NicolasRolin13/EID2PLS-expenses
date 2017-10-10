@@ -1,9 +1,0 @@
-{% extends "base.html" %}
-
-{% block main_content %}
-<ul class="whatsnew">
-    {% for action in last_actions %}
-    <li{% if action.1 %} class="involved"{% endif %}>{{ action.0 }}</li>
-    {% endfor %}
-</ul>
-{% endblock %}
