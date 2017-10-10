@@ -6,17 +6,22 @@
 
 ## Installation
 
-avec pip :
-    - pip install docker-compose
-    (pour monter les images docker)
+Dans un terminal à la racine du projet (là ou se trouve ce readme) :
 
-    - pip install -r requirements/base_requirements.txt
-    (pour avoir les dépendances accessibles)
+$ pip install -r requirements/base_requirements.txt
+(pour avoir les dépendances accessibles)
 
 ## run
 
-docker-compose build
-docker-compose up web
+$ docker-compose build
+$ docker-compose up web
 
 regarder si vous trouvez un site sur l'adresse http://127.0.0.1:8000/
 Il est conseillé de faire ça avant le cours, les images docker étant assez lourdes
+
+Vous pouvez détruire les conteneurs dockers en tapant
+$ docker compose down
+
+si les images sont trop grosses, vous pouvez détruire les images autres que python et postgres,
+qui peuvent être reconstruites sans téléchargement
+("$docker images" pour avoir la liste, et "$docker rmi [nom_de_l_image]" pour détruire une image)

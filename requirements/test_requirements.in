@@ -1,0 +1,6 @@
+-r base_requirements.in
+
+docker-compose
+flake8
+pytest
+ipython
