@@ -11,7 +11,7 @@ Dans un terminal à la racine du projet (là ou se trouve ce readme) :
 $ pip install -r requirements/base_requirements.txt
 (pour avoir les dépendances accessibles)
 
-## run
+## Téléchargement des images et run
 
 $ docker-compose build
 $ docker-compose up web
