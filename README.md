@@ -8,6 +8,11 @@
 
 Dans un terminal à la racine du projet (là ou se trouve ce readme) :
 
+Si votre dossier Skeleton est vide :
+$ git submodule update --init --recursive
+
+Puis :
+
 $ pip install -r requirements/base_requirements.txt
 (pour avoir les dépendances accessibles)
 
