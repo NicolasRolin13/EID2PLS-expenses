@@ -1,0 +1,2 @@
+
+remplace cette ligne par la chaîne de caratère "spam"
