@@ -1,10 +1,10 @@
-from collections import defaultdict
 import time
 
+from collections import defaultdict
 
 tic = time.time()
 
-random_dict = defaultdict(lambda: None)
+random_dict = defaultdict([])
 
 for integer in range(1000):
     random_dict[integer**2] = integer
