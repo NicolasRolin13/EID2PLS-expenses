@@ -15,3 +15,5 @@ print('that was hella slow, it took {time} second'.format(time=time.time() - tic
 
 
 
+def does_nothing():
+    print("ne fait rien")
