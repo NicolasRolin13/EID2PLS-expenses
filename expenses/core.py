@@ -1,4 +1,4 @@
 
 
 def does_nothing():
-    print("ne fait rien, et en plus dépasse le nombre de ligne et laisse des trailing spaces comme un malpropre sur le code source")
+    print("ne fait rien, et en plus dépasse le nombre de ligne et du coup il faudra casser cette chaîne de caractères en plusieurs bouts")
