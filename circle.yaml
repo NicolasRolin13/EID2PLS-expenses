@@ -9,6 +9,9 @@ dependencies:
 test:
   pre:
     - ./pre-test-script.sh
+  override:
+    - ./flake8.sh
+    - python setup.py test
 
 
 deployment:
