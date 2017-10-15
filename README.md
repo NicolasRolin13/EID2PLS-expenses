@@ -1,17 +1,17 @@
 
 ### Basic pycharm features
 
-## Imports simplifiés
+## base docker
 
-Allez dans le fichier bad_import.pys
-Pour chaque fonction soulignée en rouge clickez dessus et faites Alt+Entrée, et demandez de faire l'import automatique
-Run le test et vérifier que le test test_correct_imports est bien au vert
+docker run hello-world
 
+## usefull commands
 
-## Indications visuelles
-
-
+docker exec -it nom_du_contenaire /bin/bash  -> fait un "ssh" sur le docker
+docker logs -tf nom_du_contenaire -> affiche les logs du docker
 
 
-### Pour ceux qui ont fini
+
+
+
 
