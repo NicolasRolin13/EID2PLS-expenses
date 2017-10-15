@@ -1,1 +1,1 @@
-flake8 core
+flake8 expenses
