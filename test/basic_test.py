@@ -1,6 +1,6 @@
 
 
-def test_that_passes_obviously():
+def test_that_obviously_passes():
 
     zero_point_two = 0.2
     two_times_zero_point_one = 2 * 0.1
