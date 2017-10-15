@@ -15,7 +15,7 @@ En cliquant dessus vous devez voir appraître un menu, qui se décompose en 3 pa
 - branches locales
 - branches distantes
 
-Maintenant cliquez dans les branches distantes sur la branche 0.1.basic_git, 
+Maintenant cliquez dans les branches distantes sur la branche 0.basic_git, 
 puis séléctioner "checkout as new local branch" (premier choix).
 
 Vous savez maintenant changer de branche ! 
@@ -37,10 +37,26 @@ Cela va vous ouvrir un menu pour commit. Mettez le commit message de votre choix
 puis clicker sur commit.
 
 
+### Comparez deux branches
+
+Vous pouvez comparez votre branche crée avec celle de base en faisant 0.basic_git > comparer.
+Votre branche en cours est censée avoir un commit de plus que la branche 0.basic_git
+
+
 ### merge
+
+Faites un checkout sur la branche 0.basic_git, et commitez un fichier vide.
+Retournez sur la branche 0.1, puis faires 0.basic_git > merge.
+Le fichier vide devrait être rajouté sur votre branche 0.1.
+
 
 ### merge conflict
 
+Faites un checkout sur la branche 0.basic_git, et commitez changement sur file_to_change.txt (par exemple ajouter "a" à la fin du fichier).
+Retournez sur la branche 0.1, puis commitez un autre changement sur file_to_change.txt (par exemple ajouter "b" à la fin du fichier)
+
+faires 0.basic_git > merge.
+Le merge comporte ici un conflit, ce qui devrait vous ouvrir une interface graphique pour les résoudre.
 
 
 ## Pour ceux qui ont fini
@@ -48,6 +64,12 @@ puis clicker sur commit.
 
 ### logs 
 
+Vous pouvez regarder l'historique des commits en allant sur l'onglet 9: version control en bas à gauche.
+
 ### rebase
+
+Faites l'exercice du merge, mais maintenant en faisant la commande rebase.
+Vous devriez pouvoir voir une différence dans l'ordonnancement des commits provenant de la branche principale.
+
 
 
